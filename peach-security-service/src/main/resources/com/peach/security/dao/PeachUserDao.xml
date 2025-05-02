@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peach.security.dao.PeachUserDao">
+    <sql id="allColumn">
+        ID,                                               USER_ACCOUNT,                                     USER_NAME,                                        PASSWORD,
+        EMAIL,                                            USER_AVATAR,                                      USER_PROFILE,                                     PHONE,
+        CREATE_TIME,                                      MODIFIER_TIME,                                    CREATOR,                                          CREATOR_NAME,
+        MODIFIER,                                         MODIFIER_NAME,                                    IS_DELETED,                                       STATUS,
+        INVLIDATE,                                        IDENTITY_CODE
+    </sql>
+
+    <sql id="allColumnAlias">
+        ID as id,                                         USER_ACCOUNT as userAccount,                      USER_NAME as userName,                            PASSWORD as password,
+        EMAIL as email,                                   USER_AVATAR as userAvatar,                        USER_PROFILE as userProfile,                      PHONE as phone,
+        CREATE_TIME as createTime,                        MODIFIER_TIME as modifierTime,                    CREATOR as creator,                               CREATOR_NAME as creatorName,
+        MODIFIER as modifier,                             MODIFIER_NAME as modifierName,                    IS_DELETED as isDeleted,                          STATUS as status,
+        INVLIDATE as invlidate,                           IDENTITY_CODE as identityCode
+    </sql>
+
+    <sql id="allColumnValue">
+        #{id,jdbcType=VARCHAR},                 #{userAccount,jdbcType=VARCHAR},        #{userName,jdbcType=VARCHAR},           #{password,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},              #{userAvatar,jdbcType=VARCHAR},         #{userProfile,jdbcType=VARCHAR},        #{phone,jdbcType=VARCHAR},
+        #{createTime,jdbcType=VARCHAR},         #{modifierTime,jdbcType=VARCHAR},       #{creator,jdbcType=VARCHAR},            #{creatorName,jdbcType=VARCHAR},
+        #{modifier,jdbcType=VARCHAR},           #{modifierName,jdbcType=VARCHAR},       #{isDeleted,jdbcType=INTEGER},          #{status,jdbcType=INTEGER},
+        #{invlidate,jdbcType=DATE},             #{identityCode,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="itemAllColumnValue">
+        #{item.id,jdbcType=VARCHAR},            #{item.userAccount,jdbcType=VARCHAR},   #{item.userName,jdbcType=VARCHAR},      #{item.password,jdbcType=VARCHAR},
+        #{item.email,jdbcType=VARCHAR},         #{item.userAvatar,jdbcType=VARCHAR},    #{item.userProfile,jdbcType=VARCHAR},   #{item.phone,jdbcType=VARCHAR},
+        #{item.createTime,jdbcType=VARCHAR},    #{item.modifierTime,jdbcType=VARCHAR},  #{item.creator,jdbcType=VARCHAR},       #{item.creatorName,jdbcType=VARCHAR},
+        #{item.modifier,jdbcType=VARCHAR},      #{item.modifierName,jdbcType=VARCHAR},  #{item.isDeleted,jdbcType=INTEGER},     #{item.status,jdbcType=INTEGER},
+        #{item.invlidate,jdbcType=DATE},        #{item.identityCode,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="allColumnSet">
+        <trim suffixOverrides=",">
+            <if test="userAccount != null and userAccount != ''">
+                USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null and userName != ''">
+                USER_NAME = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="userAvatar != null and userAvatar != ''">
+                USER_AVATAR = #{userAvatar,jdbcType=VARCHAR},
+            </if>
+            <if test="userProfile != null and userProfile != ''">
+                USER_PROFILE = #{userProfile,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null and phone != ''">
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierTime != null and modifierTime != ''">
+                MODIFIER_TIME = #{modifierTime,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                CREATOR_NAME = #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null and modifier != ''">
+                MODIFIER = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                MODIFIER_NAME = #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="invlidate != null">
+                INVLIDATE = #{invlidate,jdbcType=DATE},
+            </if>
+            <if test="identityCode != null and identityCode != ''">
+                IDENTITY_CODE = #{identityCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveColumn">
+        <trim suffixOverrides=",">
+            <if test="userAccount != null and userAccount != ''">
+                USER_ACCOUNT,
+            </if>
+            <if test="userName != null and userName != ''">
+                USER_NAME,
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD,
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL,
+            </if>
+            <if test="userAvatar != null and userAvatar != ''">
+                USER_AVATAR,
+            </if>
+            <if test="userProfile != null and userProfile != ''">
+                USER_PROFILE,
+            </if>
+            <if test="phone != null and phone != ''">
+                PHONE,
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME,
+            </if>
+            <if test="modifierTime != null and modifierTime != ''">
+                MODIFIER_TIME,
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR,
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                CREATOR_NAME,
+            </if>
+            <if test="modifier != null and modifier != ''">
+                MODIFIER,
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                MODIFIER_NAME,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="invlidate != null">
+                INVLIDATE,
+            </if>
+            <if test="identityCode != null and identityCode != ''">
+                IDENTITY_CODE,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveValue">
+        <trim suffixOverrides=",">
+            <if test="userAccount != null and userAccount != ''">
+                #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null and userName != ''">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email != ''">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="userAvatar != null and userAvatar != ''">
+                #{userAvatar,jdbcType=VARCHAR},
+            </if>
+            <if test="userProfile != null and userProfile != ''">
+                #{userProfile,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null and phone != ''">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierTime != null and modifierTime != ''">
+                #{modifierTime,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null and modifier != ''">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="invlidate != null">
+                #{invlidate,jdbcType=DATE},
+            </if>
+            <if test="identityCode != null and identityCode != ''">
+                #{identityCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="allColumnCond">
+        <if test="id != null and id != ''">
+            AND ID = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="userAccount != null and userAccount != ''">
+            AND USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND USER_NAME = #{userName,jdbcType=VARCHAR}
+        </if>
+        <if test="password != null and password != ''">
+            AND PASSWORD = #{password,jdbcType=VARCHAR}
+        </if>
+        <if test="email != null and email != ''">
+            AND EMAIL = #{email,jdbcType=VARCHAR}
+        </if>
+        <if test="userAvatar != null and userAvatar != ''">
+            AND USER_AVATAR = #{userAvatar,jdbcType=VARCHAR}
+        </if>
+        <if test="userProfile != null and userProfile != ''">
+            AND USER_PROFILE = #{userProfile,jdbcType=VARCHAR}
+        </if>
+        <if test="phone != null and phone != ''">
+            AND PHONE = #{phone,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            AND CREATE_TIME = #{createTime,jdbcType=VARCHAR}
+        </if>
+        <if test="modifierTime != null and modifierTime != ''">
+            AND MODIFIER_TIME = #{modifierTime,jdbcType=VARCHAR}
+        </if>
+        <if test="creator != null and creator != ''">
+            AND CREATOR = #{creator,jdbcType=VARCHAR}
+        </if>
+        <if test="creatorName != null and creatorName != ''">
+            AND CREATOR_NAME = #{creatorName,jdbcType=VARCHAR}
+        </if>
+        <if test="modifier != null and modifier != ''">
+            AND MODIFIER = #{modifier,jdbcType=VARCHAR}
+        </if>
+        <if test="modifierName != null and modifierName != ''">
+            AND MODIFIER_NAME = #{modifierName,jdbcType=VARCHAR}
+        </if>
+        <if test="isDeleted != null">
+            AND IS_DELETED = #{isDeleted,jdbcType=INTEGER}
+        </if>
+        <if test="status != null">
+            AND STATUS = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="invlidate != null">
+            AND INVLIDATE = #{invlidate,jdbcType=DATE}
+        </if>
+        <if test="identityCode != null and identityCode != ''">
+            AND IDENTITY_CODE = #{identityCode,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="com.peach.security.entity.PeachUserDO">
+        INSERT INTO PEACH_USER (
+        <include refid="allColumn" />
+        ) VALUES (
+        <include refid="allColumnValue" />
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="com.peach.security.entity.PeachUserDO">
+        INSERT INTO PEACH_USER (
+        <include refid="allColumn" />
+        ) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (<include refid="itemAllColumnValue"/>)
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.peach.security.entity.PeachUserDO">
+        UPDATE PEACH_USER SET
+        <include refid="allColumnSet" />
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </update>
+
+    <delete id="delById" parameterType="string">
+        DELETE FROM PEACH_USER
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="delByIds" parameterType="java.util.List">
+        DELETE FROM PEACH_USER
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="del" parameterType="com.peach.security.entity.PeachUserDO">
+        DELETE FROM PEACH_USER
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </delete>
+
+    <update id="updateById" parameterType="java.lang.String">
+        UPDATE PEACH_USER SET
+        <include refid="allColumnSet" />
+        WHERE ID =  #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="string" resultType="com.peach.security.entity.PeachUserDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_USER
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultType="com.peach.security.entity.PeachUserDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_USER
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="select" parameterType="com.peach.security.entity.PeachUserDO" resultType="com.peach.security.entity.PeachUserDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_USER
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="count" parameterType="com.peach.security.entity.PeachUserDO" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM PEACH_USER
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="selectByQO" resultType="com.peach.security.entity.PeachUserDO" parameterType="com.peach.security.qo.UserQO">
+        SELECT
+        <include refid="allColumnAlias"/>
+        FROM PEACH_USER
+        <where>
+            <if test="userAccount != '' and userAccount != null">
+                AND USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR}
+            </if>
+            <if test="password != '' and password != null">
+                AND PASSWORD = #{password,jdbcType=VARCHAR}
+            </if>
+            <if test="userName != '' and userName != null">
+                AND USER_NAME LIKE CONCAT('%',#{userName},'%')
+            </if>
+            <if test="phone != '' and phone != null">
+                AND PHONE = #{phone,jdbcType=VARCHAR}
+            </if>
+            <if test="email != '' and email != null">
+                AND EMAIL = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="isDeleted != null">
+                AND IS_DELETED = #{isDeleted,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                AND STATUS = #{status,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="getUserByAccount" resultType="com.peach.security.entity.PeachUserDO" parameterType="java.lang.String">
+        SELECT
+        <include refid="allColumnAlias"/>
+        FROM PEACH_USER
+        WHERE USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR} AND (IS_DELETED IS NOT NULL OR IS_DELETED = 0)
+    </select>
+
+</mapper>

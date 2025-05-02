@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.peach.cn</groupId>
+    <artifactId>peach-security</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>peach-security</name>
+    <packaging>pom</packaging>
+    <description>peach-security</description>
+
+    <parent>
+        <groupId>com.peach.cn</groupId>
+        <artifactId>peach-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <sa-token.version>1.34.0</sa-token.version>
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.peach.cn</groupId>
+                <artifactId>peach-security-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.peach.cn</groupId>
+                <artifactId>peach-security-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.peach.cn</groupId>
+                <artifactId>peach-security-entity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.peach.cn</groupId>
+                <artifactId>peach-security-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.peach.cn</groupId>
+                <artifactId>peach-security-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.peach.cn</groupId>
+                <artifactId>peach-security-resource</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.peach.cn</groupId>
+                <artifactId>peach-security-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.peach.cn</groupId>
+                <artifactId>pub-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.peach.cn</groupId>
+                <artifactId>peach-fileservice-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot-starter</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>peach-security-api</module>
+        <module>peach-security-entity</module>
+        <module>peach-security-service</module>
+        <module>peach-security-rest</module>
+        <module>peach-security-starter</module>
+        <module>peach-security-launch</module>
+        <module>peach-security-resource</module>
+        <module>peach-security-common</module>
+    </modules>
+
+</project>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peach.security.dao.PeachRoleDao">
+    <sql id="allColumn">
+        ROLE_ID,                                          ROLE_CODE,                                        ROLE_NAME,                                        CREATOR,
+        CREATOR_NAME,                                     CREATE_TIME,                                      MODIFIER,                                         MODIFIER_NAME,
+        MODIFY_TIME,                                      IS_DELETED,                                       ROLE_DESC
+    </sql>
+
+    <sql id="allColumnAlias">
+        ROLE_ID as roleId,                                ROLE_CODE as roleCode,                            ROLE_NAME as roleName,                            CREATOR as creator,
+        CREATOR_NAME as creatorName,                      CREATE_TIME as createTime,                        MODIFIER as modifier,                             MODIFIER_NAME as modifierName,
+        MODIFY_TIME as modifyTime,                        IS_DELETED as isDeleted,                          ROLE_DESC as roleDesc
+    </sql>
+
+    <sql id="allColumnValue">
+        #{roleId,jdbcType=VARCHAR},             #{roleCode,jdbcType=VARCHAR},           #{roleName,jdbcType=VARCHAR},           #{creator,jdbcType=VARCHAR},
+        #{creatorName,jdbcType=VARCHAR},        #{createTime,jdbcType=VARCHAR},         #{modifier,jdbcType=VARCHAR},           #{modifierName,jdbcType=VARCHAR},
+        #{modifyTime,jdbcType=VARCHAR},         #{isDeleted,jdbcType=INTEGER},          #{roleDesc,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="itemAllColumnValue">
+        #{item.roleId,jdbcType=VARCHAR},        #{item.roleCode,jdbcType=VARCHAR},      #{item.roleName,jdbcType=VARCHAR},      #{item.creator,jdbcType=VARCHAR},
+        #{item.creatorName,jdbcType=VARCHAR},   #{item.createTime,jdbcType=VARCHAR},    #{item.modifier,jdbcType=VARCHAR},      #{item.modifierName,jdbcType=VARCHAR},
+        #{item.modifyTime,jdbcType=VARCHAR},    #{item.isDeleted,jdbcType=INTEGER},     #{item.roleDesc,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="allColumnSet">
+        <trim suffixOverrides=",">
+            <if test="roleCode != null and roleCode != ''">
+                ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roleName != null and roleName != ''">
+                ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                CREATOR_NAME = #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null and modifier != ''">
+                MODIFIER = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                MODIFIER_NAME = #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                MODIFY_TIME = #{modifyTime,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="roleDesc != null and roleDesc != ''">
+                ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveColumn">
+        <trim suffixOverrides=",">
+            <if test="roleCode != null and roleCode != ''">
+                ROLE_CODE,
+            </if>
+            <if test="roleName != null and roleName != ''">
+                ROLE_NAME,
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR,
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                CREATOR_NAME,
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME,
+            </if>
+            <if test="modifier != null and modifier != ''">
+                MODIFIER,
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                MODIFIER_NAME,
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                MODIFY_TIME,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+            <if test="roleDesc != null and roleDesc != ''">
+                ROLE_DESC,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveValue">
+        <trim suffixOverrides=",">
+            <if test="roleCode != null and roleCode != ''">
+                #{roleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roleName != null and roleName != ''">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null and modifier != ''">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                #{modifyTime,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="roleDesc != null and roleDesc != ''">
+                #{roleDesc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="allColumnCond">
+        <if test="roleId != null and roleId != ''">
+            AND ROLE_ID = #{roleId,jdbcType=VARCHAR}
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+            AND ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+        </if>
+        <if test="roleName != null and roleName != ''">
+            AND ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+        </if>
+        <if test="creator != null and creator != ''">
+            AND CREATOR = #{creator,jdbcType=VARCHAR}
+        </if>
+        <if test="creatorName != null and creatorName != ''">
+            AND CREATOR_NAME = #{creatorName,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            AND CREATE_TIME = #{createTime,jdbcType=VARCHAR}
+        </if>
+        <if test="modifier != null and modifier != ''">
+            AND MODIFIER = #{modifier,jdbcType=VARCHAR}
+        </if>
+        <if test="modifierName != null and modifierName != ''">
+            AND MODIFIER_NAME = #{modifierName,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyTime != null and modifyTime != ''">
+            AND MODIFY_TIME = #{modifyTime,jdbcType=VARCHAR}
+        </if>
+        <if test="isDeleted != null">
+            AND IS_DELETED = #{isDeleted,jdbcType=INTEGER}
+        </if>
+        <if test="roleDesc != null and roleDesc != ''">
+            AND ROLE_DESC = #{roleDesc,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="com.peach.security.entity.PeachRoleDO">
+        INSERT INTO PEACH_ROLE (
+        <include refid="allColumn" />
+        ) VALUES (
+        <include refid="allColumnValue" />
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="com.peach.security.entity.PeachRoleDO">
+        INSERT INTO PEACH_ROLE (
+        <include refid="allColumn" />
+        ) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (<include refid="itemAllColumnValue"/>)
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.peach.security.entity.PeachRoleDO">
+        UPDATE PEACH_ROLE SET
+        <include refid="allColumnSet" />
+        WHERE ROLE_ID = #{roleId,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delById" parameterType="string">
+        DELETE FROM PEACH_ROLE
+        WHERE ROLE_ID = #{value,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="delByIds" parameterType="java.util.List">
+        DELETE FROM PEACH_ROLE
+        WHERE ROLE_ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="del" parameterType="com.peach.security.entity.PeachRoleDO">
+        DELETE FROM PEACH_ROLE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </delete>
+
+    <update id="updateById" parameterType="java.lang.String">
+        UPDATE PEACH_ROLE SET
+        <include refid="allColumnSet" />
+        WHERE ROLE_ID =  #{roleId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="string" resultType="com.peach.security.entity.PeachRoleDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_ROLE
+        WHERE ROLE_ID = #{value,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultType="com.peach.security.entity.PeachRoleDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_ROLE
+        WHERE ROLE_ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="select" parameterType="com.peach.security.entity.PeachRoleDO" resultType="com.peach.security.entity.PeachRoleDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_ROLE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="count" parameterType="com.peach.security.entity.PeachRoleDO" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM PEACH_ROLE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="selectByQO" resultType="com.peach.security.entity.PeachRoleDO" parameterType="com.peach.security.qo.PeachRoleQO">
+        SELECT <include refid="allColumnAlias"/>
+            FROM PEACH_MENU
+        <where>
+            <if test="roleId != null and roleId != ''">
+                ROLE_ID = #{roleId,jdbcType=VARCHAR}
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                AND ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="selectByUserCode" resultType="com.peach.security.entity.PeachRoleDO" parameterType="java.lang.String">
+        SELECT
+        r.ROLE_CODE as roleCode,
+        r.ROLE_NAME as roleName,
+        r.ROLE_ID as roleId,
+        p.PARTY_CODE as userCode
+        FROM PEACH_ROLE r LEFT JOIN PEACH_AUTH_PARTY p ON r.ROLE_CODE = p.ROLE_CODE
+        WHERE (r.is_delete IS NULL OR r.is_delete != 1) AND p.PARTY_CODE = #{userCode}
+
+    </select>
+
+</mapper>

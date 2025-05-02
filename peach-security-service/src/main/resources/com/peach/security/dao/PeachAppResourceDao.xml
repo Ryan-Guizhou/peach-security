@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peach.security.dao.PeachAppResourceDao">
+    <sql id="allColumn">
+        RESOURCE_ID,                                      FUNC_CODE,                                        RESOURCE_TYPE,                                    RESOURCE_CODE,
+        RESOURCE_NAME,                                    MODIFY_TIME,                                      CREATE_TIME,                                      IS_DELETE,
+        CREATOR_CODE,                                     CREATOR
+    </sql>
+
+    <sql id="allColumnAlias">
+        RESOURCE_ID as resourceId,                        FUNC_CODE as funcCode,                            RESOURCE_TYPE as resourceType,                    RESOURCE_CODE as resourceCode,
+        RESOURCE_NAME as resourceName,                    MODIFY_TIME as modifyTime,                        CREATE_TIME as createTime,                        IS_DELETE as isDelete,
+        CREATOR_CODE as creatorCode,                      CREATOR as creator
+    </sql>
+
+    <sql id="allColumnValue">
+        #{resourceId,jdbcType=VARCHAR},         #{funcCode,jdbcType=VARCHAR},           #{resourceType,jdbcType=VARCHAR},       #{resourceCode,jdbcType=VARCHAR},
+        #{resourceName,jdbcType=VARCHAR},       #{modifyTime,jdbcType=VARCHAR},         #{createTime,jdbcType=VARCHAR},         #{isDelete,jdbcType=INTEGER},
+        #{creatorCode,jdbcType=VARCHAR},        #{creator,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="itemAllColumnValue">
+        #{item.resourceId,jdbcType=VARCHAR},    #{item.funcCode,jdbcType=VARCHAR},      #{item.resourceType,jdbcType=VARCHAR},  #{item.resourceCode,jdbcType=VARCHAR},
+        #{item.resourceName,jdbcType=VARCHAR},  #{item.modifyTime,jdbcType=VARCHAR},    #{item.createTime,jdbcType=VARCHAR},    #{item.isDelete,jdbcType=INTEGER},
+        #{item.creatorCode,jdbcType=VARCHAR},   #{item.creator,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="allColumnSet">
+        <trim suffixOverrides=",">
+            <if test="funcCode != null and funcCode != ''">
+                FUNC_CODE = #{funcCode,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceType != null and resourceType != ''">
+                RESOURCE_TYPE = #{resourceType,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceCode != null and resourceCode != ''">
+                RESOURCE_CODE = #{resourceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceName != null and resourceName != ''">
+                RESOURCE_NAME = #{resourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                MODIFY_TIME = #{modifyTime,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                IS_DELETE = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="creatorCode != null and creatorCode != ''">
+                CREATOR_CODE = #{creatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveColumn">
+        <trim suffixOverrides=",">
+            <if test="funcCode != null and funcCode != ''">
+                FUNC_CODE,
+            </if>
+            <if test="resourceType != null and resourceType != ''">
+                RESOURCE_TYPE,
+            </if>
+            <if test="resourceCode != null and resourceCode != ''">
+                RESOURCE_CODE,
+            </if>
+            <if test="resourceName != null and resourceName != ''">
+                RESOURCE_NAME,
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                MODIFY_TIME,
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME,
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                IS_DELETE,
+            </if>
+            <if test="creatorCode != null and creatorCode != ''">
+                CREATOR_CODE,
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveValue">
+        <trim suffixOverrides=",">
+            <if test="funcCode != null and funcCode != ''">
+                #{funcCode,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceType != null and resourceType != ''">
+                #{resourceType,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceCode != null and resourceCode != ''">
+                #{resourceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceName != null and resourceName != ''">
+                #{resourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                #{modifyTime,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="creatorCode != null and creatorCode != ''">
+                #{creatorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="allColumnCond">
+        <if test="resourceId != null and resourceId != ''">
+            AND RESOURCE_ID = #{resourceId,jdbcType=VARCHAR}
+        </if>
+        <if test="funcCode != null and funcCode != ''">
+            AND FUNC_CODE = #{funcCode,jdbcType=VARCHAR}
+        </if>
+        <if test="resourceType != null and resourceType != ''">
+            AND RESOURCE_TYPE = #{resourceType,jdbcType=VARCHAR}
+        </if>
+        <if test="resourceCode != null and resourceCode != ''">
+            AND RESOURCE_CODE = #{resourceCode,jdbcType=VARCHAR}
+        </if>
+        <if test="resourceName != null and resourceName != ''">
+            AND RESOURCE_NAME = #{resourceName,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyTime != null and modifyTime != ''">
+            AND MODIFY_TIME = #{modifyTime,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            AND CREATE_TIME = #{createTime,jdbcType=VARCHAR}
+        </if>
+        <if test="isDelete != null and isDelete != ''">
+            AND IS_DELETE = #{isDelete,jdbcType=INTEGER}
+        </if>
+        <if test="creatorCode != null and creatorCode != ''">
+            AND CREATOR_CODE = #{creatorCode,jdbcType=VARCHAR}
+        </if>
+        <if test="creator != null and creator != ''">
+            AND CREATOR = #{creator,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="com.peach.security.entity.PeachAppResourceDO">
+        INSERT INTO PEACH_APP_RESOURCE (
+        <include refid="allColumn" />
+        ) VALUES (
+        <include refid="allColumnValue" />
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="com.peach.security.entity.PeachAppResourceDO">
+        INSERT INTO PEACH_APP_RESOURCE (
+        <include refid="allColumn" />
+        ) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (<include refid="itemAllColumnValue"/>)
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.peach.security.entity.PeachAppResourceDO">
+        UPDATE PEACH_APP_RESOURCE SET
+        <include refid="allColumnSet" />
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </update>
+
+    <delete id="delById" parameterType="string">
+        DELETE FROM PEACH_APP_RESOURCE
+        WHERE RESOURCE_ID = #{value,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="delByIds" parameterType="java.util.List">
+        DELETE FROM PEACH_APP_RESOURCE
+        WHERE RESOURCE_ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="del" parameterType="com.peach.security.entity.PeachAppResourceDO">
+        DELETE FROM PEACH_APP_RESOURCE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </delete>
+
+    <update id="updateById" parameterType="java.lang.String">
+        UPDATE PEACH_APP_RESOURCE SET
+        <include refid="allColumnSet" />
+        WHERE RESOURCE_ID =  #{resourceId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="string" resultType="com.peach.security.entity.PeachAppResourceDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_APP_RESOURCE
+        WHERE RESOURCE_ID = #{value,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultType="com.peach.security.entity.PeachAppResourceDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_APP_RESOURCE
+        WHERE RESOURCE_ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="select" parameterType="com.peach.security.entity.PeachAppResourceDO" resultType="com.peach.security.entity.PeachAppResourceDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_APP_RESOURCE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="count" parameterType="com.peach.security.entity.PeachAppResourceDO" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM PEACH_APP_RESOURCE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+</mapper>

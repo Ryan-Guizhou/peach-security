@@ -1,0 +1,41 @@
+### Custom ###
+application-db.yaml
+application-file.yaml
+
+*/.mvn/wrapper/maven-wrapper.jar
+*/target/
+*/build/
+
+### STS ###
+*/.apt_generated
+*/.classpath
+*/.factorypath
+*/.project
+*/.settings
+*/.springBeans
+*/.sts4-cache
+
+### VS Code ###
+.vscode/
+
+
+### IntelliJ IDEA ###
+*/.iws
+*/.iml
+*/.ipr
+*/.idea/
+*/.vscode/
+*/.settings/
+*/.classpath
+*/.project
+*/.factorypath
+*/.sts4-cache
+*/.springBeans
+
+
+### NetBeans ###
+*/nbproject/private/
+*/nbbuild/
+*/dist/
+*/nbdist/
+*/.nb-gradle/

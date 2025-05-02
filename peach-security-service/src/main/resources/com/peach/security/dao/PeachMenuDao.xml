@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peach.security.dao.PeachMenuDao">
+    <sql id="allColumn">
+        MENU_ID,                                          MENU_NAME,                                        MENU_CODE,                                        IS_LEAF,
+        MENU_URL,                                         PARENT_MENU_ID,                                   MENU_LEVEL,                                       SORT_NO,
+        COLLAPSE_ICON,                                    EXPAND_ICON,                                      SUBCOUNT,                                         FUNC_CODE,
+        CREATE_TIME,                                      MODIFY_TIME,                                      IS_DELETED,                                       IS_DISABLE,
+        IS_SHOW,                                          MENU_ICON,                                        CREATOR,                                          CREATOR_CODE
+
+    </sql>
+
+    <sql id="allColumnAlias">
+        MENU_ID as menuId,                                MENU_NAME as menuName,                            MENU_CODE as menuCode,                            IS_LEAF as isLeaf,
+        MENU_URL as menuUrl,                              PARENT_MENU_ID as parentMenuId,                   MENU_LEVEL as menuLevel,                          SORT_NO as sortNo,
+        COLLAPSE_ICON as collapseIcon,                    EXPAND_ICON as expandIcon,                        SUBCOUNT as subcount,                             FUNC_CODE as funcCode,
+        CREATE_TIME as createTime,                        MODIFY_TIME as modifyTime,                        IS_DELETED as isDeleted,                          IS_DISABLE as isDisable,
+        IS_SHOW as isShow,                                MENU_ICON as menuIcon,                            CREATOR as creator,                               CREATOR_CODE as creatorCode
+
+    </sql>
+
+    <sql id="allColumnValue">
+        #{menuId,jdbcType=VARCHAR},             #{menuName,jdbcType=VARCHAR},           #{menuCode,jdbcType=VARCHAR},           #{isLeaf,jdbcType=INTEGER},
+        #{menuUrl,jdbcType=VARCHAR},            #{parentMenuId,jdbcType=VARCHAR},       #{menuLevel,jdbcType=INTEGER},          #{sortNo,jdbcType=INTEGER},
+        #{collapseIcon,jdbcType=VARCHAR},       #{expandIcon,jdbcType=VARCHAR},         #{subcount,jdbcType=INTEGER},           #{funcCode,jdbcType=VARCHAR},
+        #{createTime,jdbcType=VARCHAR},         #{modifyTime,jdbcType=VARCHAR},         #{isDeleted,jdbcType=INTEGER},          #{isDisable,jdbcType=INTEGER},
+        #{isShow,jdbcType=INTEGER},             #{menuIcon,jdbcType=VARCHAR},           #{creator,jdbcType=VARCHAR},            #{creatorCode,jdbcType=VARCHAR}
+
+    </sql>
+
+    <sql id="itemAllColumnValue">
+        #{item.menuId,jdbcType=VARCHAR},        #{item.menuName,jdbcType=VARCHAR},      #{item.menuCode,jdbcType=VARCHAR},      #{item.isLeaf,jdbcType=INTEGER},
+        #{item.menuUrl,jdbcType=VARCHAR},       #{item.parentMenuId,jdbcType=VARCHAR},  #{item.menuLevel,jdbcType=INTEGER},     #{item.sortNo,jdbcType=INTEGER},
+        #{item.collapseIcon,jdbcType=VARCHAR},  #{item.expandIcon,jdbcType=VARCHAR},    #{item.subcount,jdbcType=INTEGER},      #{item.funcCode,jdbcType=VARCHAR},
+        #{item.createTime,jdbcType=VARCHAR},    #{item.modifyTime,jdbcType=VARCHAR},    #{item.isDeleted,jdbcType=INTEGER},     #{item.isDisable,jdbcType=INTEGER},
+        #{item.isShow,jdbcType=INTEGER},        #{item.menuIcon,jdbcType=VARCHAR},      #{item.creator,jdbcType=VARCHAR},       #{item.creatorCode,jdbcType=VARCHAR}
+
+    </sql>
+
+    <sql id="allColumnSet">
+        <trim suffixOverrides=",">
+            <if test="menuName != null and menuName != ''">
+                MENU_NAME = #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuCode != null and menuCode != ''">
+                MENU_CODE = #{menuCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isLeaf != null">
+                IS_LEAF = #{isLeaf,jdbcType=INTEGER},
+            </if>
+            <if test="menuUrl != null and menuUrl != ''">
+                MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="parentMenuId != null and parentMenuId != ''">
+                PARENT_MENU_ID = #{parentMenuId,jdbcType=VARCHAR},
+            </if>
+            <if test="menuLevel != null">
+                MENU_LEVEL = #{menuLevel,jdbcType=INTEGER},
+            </if>
+            <if test="sortNo != null">
+                SORT_NO = #{sortNo,jdbcType=INTEGER},
+            </if>
+            <if test="collapseIcon != null and collapseIcon != ''">
+                COLLAPSE_ICON = #{collapseIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="expandIcon != null and expandIcon != ''">
+                EXPAND_ICON = #{expandIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="subcount != null">
+                SUBCOUNT = #{subcount,jdbcType=INTEGER},
+            </if>
+            <if test="funcCode != null and funcCode != ''">
+                FUNC_CODE = #{funcCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                MODIFY_TIME = #{modifyTime,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="isDisable != null">
+                IS_DISABLE = #{isDisable,jdbcType=INTEGER},
+            </if>
+            <if test="isShow != null">
+                IS_SHOW = #{isShow,jdbcType=INTEGER},
+            </if>
+            <if test="menuIcon != null and menuIcon != ''">
+                MENU_ICON = #{menuIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorCode != null and creatorCode != ''">
+                CREATOR_CODE = #{creatorCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveColumn">
+        <trim suffixOverrides=",">
+            <if test="menuName != null and menuName != ''">
+                MENU_NAME,
+            </if>
+            <if test="menuCode != null and menuCode != ''">
+                MENU_CODE,
+            </if>
+            <if test="isLeaf != null">
+                IS_LEAF,
+            </if>
+            <if test="menuUrl != null and menuUrl != ''">
+                MENU_URL,
+            </if>
+            <if test="parentMenuId != null and parentMenuId != ''">
+                PARENT_MENU_ID,
+            </if>
+            <if test="menuLevel != null">
+                MENU_LEVEL,
+            </if>
+            <if test="sortNo != null">
+                SORT_NO,
+            </if>
+            <if test="collapseIcon != null and collapseIcon != ''">
+                COLLAPSE_ICON,
+            </if>
+            <if test="expandIcon != null and expandIcon != ''">
+                EXPAND_ICON,
+            </if>
+            <if test="subcount != null">
+                SUBCOUNT,
+            </if>
+            <if test="funcCode != null and funcCode != ''">
+                FUNC_CODE,
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME,
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                MODIFY_TIME,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+            <if test="isDisable != null">
+                IS_DISABLE,
+            </if>
+            <if test="isShow != null">
+                IS_SHOW,
+            </if>
+            <if test="menuIcon != null and menuIcon != ''">
+                MENU_ICON,
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR,
+            </if>
+            <if test="creatorCode != null and creatorCode != ''">
+                CREATOR_CODE,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveValue">
+        <trim suffixOverrides=",">
+            <if test="menuName != null and menuName != ''">
+                #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuCode != null and menuCode != ''">
+                #{menuCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isLeaf != null">
+                #{isLeaf,jdbcType=INTEGER},
+            </if>
+            <if test="menuUrl != null and menuUrl != ''">
+                #{menuUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="parentMenuId != null and parentMenuId != ''">
+                #{parentMenuId,jdbcType=VARCHAR},
+            </if>
+            <if test="menuLevel != null">
+                #{menuLevel,jdbcType=INTEGER},
+            </if>
+            <if test="sortNo != null">
+                #{sortNo,jdbcType=INTEGER},
+            </if>
+            <if test="collapseIcon != null and collapseIcon != ''">
+                #{collapseIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="expandIcon != null and expandIcon != ''">
+                #{expandIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="subcount != null">
+                #{subcount,jdbcType=INTEGER},
+            </if>
+            <if test="funcCode != null and funcCode != ''">
+                #{funcCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                #{modifyTime,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="isDisable != null">
+                #{isDisable,jdbcType=INTEGER},
+            </if>
+            <if test="isShow != null">
+                #{isShow,jdbcType=INTEGER},
+            </if>
+            <if test="menuIcon != null and menuIcon != ''">
+                #{menuIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorCode != null and creatorCode != ''">
+                #{creatorCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="allColumnCond">
+        <if test="menuId != null and menuId != ''">
+            AND MENU_ID = #{menuId,jdbcType=VARCHAR}
+        </if>
+        <if test="menuName != null and menuName != ''">
+            AND MENU_NAME = #{menuName,jdbcType=VARCHAR}
+        </if>
+        <if test="menuCode != null and menuCode != ''">
+            AND MENU_CODE = #{menuCode,jdbcType=VARCHAR}
+        </if>
+        <if test="isLeaf != null">
+            AND IS_LEAF = #{isLeaf,jdbcType=INTEGER}
+        </if>
+        <if test="menuUrl != null and menuUrl != ''">
+            AND MENU_URL = #{menuUrl,jdbcType=VARCHAR}
+        </if>
+        <if test="parentMenuId != null and parentMenuId != ''">
+            AND PARENT_MENU_ID = #{parentMenuId,jdbcType=VARCHAR}
+        </if>
+        <if test="menuLevel != null">
+            AND MENU_LEVEL = #{menuLevel,jdbcType=INTEGER}
+        </if>
+        <if test="sortNo != null">
+            AND SORT_NO = #{sortNo,jdbcType=INTEGER}
+        </if>
+        <if test="collapseIcon != null and collapseIcon != ''">
+            AND COLLAPSE_ICON = #{collapseIcon,jdbcType=VARCHAR}
+        </if>
+        <if test="expandIcon != null and expandIcon != ''">
+            AND EXPAND_ICON = #{expandIcon,jdbcType=VARCHAR}
+        </if>
+        <if test="subcount != null">
+            AND SUBCOUNT = #{subcount,jdbcType=INTEGER}
+        </if>
+        <if test="funcCode != null and funcCode != ''">
+            AND FUNC_CODE = #{funcCode,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            AND CREATE_TIME = #{createTime,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyTime != null and modifyTime != ''">
+            AND MODIFY_TIME = #{modifyTime,jdbcType=VARCHAR}
+        </if>
+        <if test="isDeleted != null">
+            AND IS_DELETED = #{isDeleted,jdbcType=INTEGER}
+        </if>
+        <if test="isDisable != null">
+            AND IS_DISABLE = #{isDisable,jdbcType=INTEGER}
+        </if>
+        <if test="isShow != null">
+            AND IS_SHOW = #{isShow,jdbcType=INTEGER}
+        </if>
+        <if test="menuIcon != null and menuIcon != ''">
+            AND MENU_ICON = #{menuIcon,jdbcType=VARCHAR}
+        </if>
+        <if test="creator != null and creator != ''">
+            AND CREATOR = #{creator,jdbcType=VARCHAR}
+        </if>
+        <if test="creatorCode != null and creatorCode != ''">
+            AND CREATOR_CODE = #{creatorCode,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="com.peach.security.entity.PeachMenuDO">
+        INSERT INTO PEACH_MENU (
+        <include refid="allColumn" />
+        ) VALUES (
+        <include refid="allColumnValue" />
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="com.peach.security.entity.PeachMenuDO">
+        INSERT INTO PEACH_MENU (
+        <include refid="allColumn" />
+        ) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (<include refid="itemAllColumnValue"/>)
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.peach.security.entity.PeachMenuDO">
+        UPDATE PEACH_MENU SET
+        <include refid="allColumnSet" />
+        WHERE MENU_ID = #{menuId,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delById" parameterType="string">
+        DELETE FROM PEACH_MENU
+        WHERE MENU_ID = #{value,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="delByIds" parameterType="java.util.List">
+        DELETE FROM PEACH_MENU
+        WHERE MENU_ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="del" parameterType="com.peach.security.entity.PeachMenuDO">
+        DELETE FROM PEACH_MENU
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </delete>
+
+    <update id="updateById" parameterType="java.lang.String">
+        UPDATE PEACH_MENU SET
+        <include refid="allColumnSet" />
+        WHERE MENU_ID =  #{menuId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="string" resultType="com.peach.security.entity.PeachMenuDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_MENU
+        WHERE MENU_ID = #{value,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultType="com.peach.security.entity.PeachMenuDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_MENU
+        WHERE MENU_ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="select" parameterType="com.peach.security.entity.PeachMenuDO" resultType="com.peach.security.entity.PeachMenuDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_MENU
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="count" parameterType="com.peach.security.entity.PeachMenuDO" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM PEACH_MENU
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="selectByQO" resultType="com.peach.security.entity.PeachMenuDO" parameterType="com.peach.security.qo.PeachMenuQO">
+        SELECT <include refid="allColumnAlias"/>
+            FROM PEACH_MENU
+        <where>
+            <if test="menuId != null and menuId != ''">
+                MENU_ID = #{menuId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByRoleCodeList" resultType="com.peach.security.entity.PeachMenuDO" parameterType="java.util.List">
+        SELECT DISTINCT m.MENU_ID As "menuId",
+        m.PARENT_MENU_ID as "parentMenuId",
+        m.MENU_NAME as "menuName",
+        m.MENU_PARAM as "menuParam",
+        m.MENU_URL as "menuUrl",
+        m.IS_LEAF as "isLeaf",
+        m.MENU_LEVEL as "menuLevel",
+        m.MENU_SEQ as "menuSeq",
+        (CASE WHEN m.IS_SHOW is null then 1 else m.IS_SHOW end ) as "isShow",
+        f.FUNC_CODE AS "funcCode",
+        m.FUNC_CODE,
+        m.SORT_NO AS "sortNo",
+        m.MENU_ICON as "menuIcon"
+        FROM AFA_APP_MENU m
+        LEFT JOIN AFA_APP_FUNCTION f ON m.FUNC_CODE = f.FUNC_CODE
+        LEFT JOIN AFA_AUTH_FUNCTION af ON f.FUNC_CODE = af.FUNC_CODE
+        WHERE af.PARTY_CODE IN
+        <foreach collection="roleCodeList" index="index" item="roleCode" open="(" separator="," close=")">
+            #{roleCode,jdbcType=VARCHAR}
+        </foreach>
+        AND (m.IS_DELETE IS NULL OR m.IS_DELETE != 1)
+        AND (f.IS_DELETE IS NULL OR f.IS_DELETE != 1)
+        AND (m.IS_DISABLE = 0 or m.IS_DISABLE is NULL)
+        AND (af.IS_DELETE IS NULL OR af.IS_DELETE != 1)
+        order by m.SORT_NO
+
+    </select>
+</mapper>

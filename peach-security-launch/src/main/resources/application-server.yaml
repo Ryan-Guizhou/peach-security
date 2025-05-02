@@ -1,0 +1,11 @@
+server:
+  port: 8877
+  tomcat:
+    basedir: D:/temp
+  servlet:
+    context-path: /api
+knife4j:
+  enable: true
+  setting:
+    enableSwaggerModels: false
+
