@@ -127,7 +127,7 @@ public class LoginServiceImpl implements ILoginService {
     @Override
     public Response register(RegisterRequestInfo registerRequestInfo) throws ValidationException {
         // 参数统一校验 都不能为空
-        InputParamChecker.checkRequiredParams(registerRequestInfo);
+        InputParamChecker.of(registerRequestInfo).checkAnnotatedFields();
         String userAccount = registerRequestInfo.getUserAccount();
         String password = registerRequestInfo.getPassword();
         String repeatPassword = registerRequestInfo.getRepeatPassword();
@@ -259,9 +259,7 @@ public class LoginServiceImpl implements ILoginService {
             checkUserPasswordInvlidate(userDO);
 
             String inputPassword = loginRequestInfo.getPassword();
-            String existPassowrd = userDO.getPassword();
-            String userAccount = userDO.getUserAccount();
-            checkUserPassword(existPassowrd,inputPassword,userAccount);
+            checkUserPassword(userDO,inputPassword);
             return userDO;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -310,7 +308,10 @@ public class LoginServiceImpl implements ILoginService {
      * @param inputPassword 用户输入的密码
      * @param userAccount 用户名
      */
-    private void checkUserPassword(String existPassword,String inputPassword,String userAccount) {
+    private void checkUserPassword(PeachUserDO userDO,String inputPassword) {
+        String userAccount = userDO.getUserAccount();
+        String existPassword = userDO.getPassword();
+
         String lockedCountKey = buildLockedCountUniqueKey(userAccount);
         String lockedLevelKey = buildLockedLevelUniqueKey(userAccount);
 
@@ -350,6 +351,7 @@ public class LoginServiceImpl implements ILoginService {
 
             // 更新用户状态为锁定
             PeachUserDO user = new PeachUserDO();
+            user.setId(userDO.getId());
             user.setUserAccount(userAccount);
             user.setStatus(UserStatusConstant.LOCKED);
             userService.updateUserInfo(user);

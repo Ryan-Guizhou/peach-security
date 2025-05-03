@@ -1,5 +1,6 @@
 package com.peach.security.api;
 
+import com.peach.common.response.Response;
 import com.peach.security.entity.PeachAppResourceDO;
 
 import java.util.List;
@@ -12,9 +13,18 @@ import java.util.List;
  */
 public interface IResourceService {
 
-    Boolean delResource(List<String> resourceIdList);
+    Response delResource(List<String> resourceIdList);
 
     Boolean addResource(PeachAppResourceDO resourceDO);
 
-    Boolean updateResource(PeachAppResourceDO resourceDO);
+    Response updateResource(PeachAppResourceDO resourceDO);
+
+    /**
+     * 根据功能编码查询资源信息,isDeleted 为null 时查询所有
+     *
+     * @param funcCode 资源编码
+     * @param isDeleted 是否删除 1是 0否
+     * @return
+     */
+    PeachAppResourceDO getByFuncCode(String funcCode,Integer isDeleted);
 }

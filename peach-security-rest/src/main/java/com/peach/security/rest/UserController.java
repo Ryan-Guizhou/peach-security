@@ -1,10 +1,10 @@
 package com.peach.security.rest;
 
+import com.peach.common.response.PageResult;
 import com.peach.common.response.Response;
 import com.peach.security.api.IUserService;
-import com.peach.security.dto.UserDTO;
+import com.peach.security.entity.PeachUserDO;
 import com.peach.security.qo.PeachUserQO;
-import com.peach.security.qo.UserQO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Indexed;
@@ -29,26 +29,24 @@ public class UserController {
 
     @GetMapping("/list")
     @ApiOperation("分页查询用户列表")
-    public Response getUserList(UserQO userQO){
-//        PageResult<UserDO> userList = userService.getUserList(userQO);
-        return Response.success();
+    public Response getUserList(PeachUserQO userQO){
+        PageResult<PeachUserDO> userList = userService.getUserList(userQO);
+        return Response.success().setData(userList);
     }
 
     @PostMapping("/addUser")
     @ApiOperation("添加用户")
-    public Response addUser(UserDTO userDTO){
-        userService.insert(userDTO);
-        return Response.success();
+    public Response addUser(PeachUserDO peachUserDO){
+        return userService.addUser(peachUserDO);
     }
-
 
     @PostMapping("/delById/{userId}")
     @ApiOperation("根据ID刪除用戶")
     public Response delRole(@PathVariable("userId") String userId) {
-        return Response.success();
+        return userService.deleteById(userId);
     }
 
-    @DeleteMapping("/batchDel")
+    @PostMapping("/batchDel")
     @ApiOperation("批量删除用户")
     public Response batchDelUser(@RequestBody PeachUserQO userQO) {
         return Response.success();
@@ -56,13 +54,14 @@ public class UserController {
 
     @PostMapping("/modifyUser")
     @ApiOperation("修改用户")
-    public Response modifyUser(@RequestBody PeachUserQO userQO) {
-        return Response.success();
+    public Response modifyUser(@RequestBody PeachUserDO userDO) {
+        return userService.updateUser(userDO);
     }
 
-    @GetMapping("/getById/{userId}")
+    @PostMapping("/getById/{userId}")
     @ApiOperation("根据ID获取用户详情")
-    public Response getUserByID(@PathVariable String roleId) {
-        return Response.success();
+    public Response getUserByID(@PathVariable("userId") String userId) {
+        PeachUserDO userInfo = userService.getUserInfo(userId);
+        return Response.success().setData(userInfo);
     }
 }

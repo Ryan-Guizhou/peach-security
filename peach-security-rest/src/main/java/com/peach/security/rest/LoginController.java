@@ -1,6 +1,7 @@
 package com.peach.security.rest;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.peach.common.anno.HandleLogin;
 import com.peach.common.response.Response;
 import com.peach.common.util.IDGenerator;
 import com.peach.common.util.IpUtil;
@@ -36,8 +37,8 @@ public class LoginController {
     private ILoginService loginService;
 
     @PostMapping("/login")
-    @ApiOperation("登录登录")
-//    @HandleLogin
+    @ApiOperation("用户登录")
+    @HandleLogin
     public Response login(@RequestBody LoginRequestInfo loginRequestInfo, HttpServletRequest request) {
         try{
             String remoteIp = IpUtil.getIpAddr(request);
@@ -61,8 +62,6 @@ public class LoginController {
             throw new RuntimeException(e);
         }
     }
-
-
 
 
     @PostMapping("/logout")

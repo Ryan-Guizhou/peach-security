@@ -3,9 +3,8 @@ package com.peach.security.service;
 import com.google.common.collect.Lists;
 import com.peach.common.constant.PubCommonConst;
 import com.peach.common.exception.ValidateException;
-import com.peach.common.util.DateUtil;
-import com.peach.common.util.IDGenerator;
-import com.peach.common.util.PeachCollectionUtil;
+import com.peach.common.response.Response;
+import com.peach.common.util.*;
 import com.peach.security.api.IResourceService;
 import com.peach.security.common.ResourceTypeEnum;
 import com.peach.security.dao.PeachAppResourceDao;
@@ -14,12 +13,16 @@ import com.peach.security.dao.PeachAuthResourceDao;
 import com.peach.security.entity.PeachAppResourceDO;
 import com.peach.security.entity.PeachAuthFunctionDO;
 import com.peach.security.entity.PeachAuthResourceDO;
+import com.peach.security.qo.PeachAuthResourceQO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Indexed;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @Author Mr Shu
@@ -52,8 +55,29 @@ public class ResourceServiceImpl implements IResourceService {
     private PeachAuthFunctionDao peachAuthFunctionDao;
 
     @Override
-    public Boolean delResource(List<String> resourceIdList) {
-        return null;
+    public Response delResource(List<String> resourceIdList) {
+        if (PeachCollectionUtil.isEmpty(resourceIdList)) {
+            throw new ValidateException("params resourceIdList is empty");
+        }
+        List<PeachAppResourceDO> appResourceDOList = peachAppResourceDao.selectByIds(resourceIdList);
+        if (appResourceDOList == null || appResourceDOList.isEmpty()) {
+            throw new ValidateException("需要删除的资源已被删除");
+        }
+        List<String> resourceCodeList = appResourceDOList.stream().filter(Objects::nonNull).map(PeachAppResourceDO::getResourceCode).collect(Collectors.toList());
+        List<String> funcCodeList = appResourceDOList.stream().filter(Objects::nonNull).map(PeachAppResourceDO::getFuncCode).collect(Collectors.toList());
+        PeachAuthResourceQO authResourceQO = new PeachAuthResourceQO();
+        authResourceQO.setResourceCodeList(resourceCodeList);
+        authResourceQO.setFuncCodeList(funcCodeList);
+        // 根据这些资源编码和功能编码查询是否存在已授权的资源
+        List<PeachAuthResourceDO> authResourceDOList = peachAuthResourceDao.selectByQO(authResourceQO);
+        if (!PeachCollectionUtil.isEmpty(authResourceDOList)) {
+            List<String> authResourceIdList = appResourceDOList.stream().filter(Objects::nonNull).map(PeachAppResourceDO::getResourceId).collect(Collectors.toList());
+            // 删除已授权的资源
+            peachAuthResourceDao.delByIds(authResourceIdList);
+        }
+        // 删除原始资源
+        peachAppResourceDao.delByIds(resourceIdList);
+        return Response.success();
     }
 
     @Override
@@ -105,7 +129,56 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
-    public Boolean updateResource(PeachAppResourceDO resourceDO) {
-        return null;
+    @Transactional(rollbackFor = Exception.class)
+    public Response updateResource(PeachAppResourceDO resourceDO) {
+       try {
+           // 校验必填参数是否为空
+           InputParamChecker.of(resourceDO)
+                   .checkField("resourceId")
+                   .checkField("resourceCode")
+                   .checkField("resourceName")
+                   .checkField("resourceType");
+       }catch (Exception e) {
+           return Response.fail().setMsg(e.getMessage());
+       }
+       // 校验相同funcCode、resourceCode、resourceType 唯一
+        PeachAppResourceDO existResourceDo = peachAppResourceDao.selectById(resourceDO.getResourceId());
+        if (existResourceDo == null) {
+            throw new ValidateException("该资源已被删除");
+        }
+
+        PeachAppResourceDO query = new PeachAppResourceDO();
+        query.setFuncCode(resourceDO.getFuncCode());
+        query.setResourceCode(resourceDO.getResourceCode());
+        query.setResourceType(resourceDO.getResourceType());
+        List<PeachAppResourceDO> existResourceList = peachAppResourceDao.select(query);
+        if (PeachCollectionUtil.isEmpty(existResourceList)) {
+            String errorMsg = String.format("funcCode:[%s],resourceCode:[%s],resouorceType:[%s] has been exist,can't be updated",
+                    resourceDO.getFuncCode(), resourceDO.getResourceCode(), resourceDO.getResourceType());
+            log.error(errorMsg);
+            throw new RuntimeException(errorMsg);
+        }
+
+        peachAppResourceDao.updateById(resourceDO);
+        // 同步修改已授权已授权的资源
+        PeachAuthResourceDO authResourceDO = new PeachAuthResourceDO();
+        authResourceDO.setFuncCode(resourceDO.getFuncCode());
+        authResourceDO.setResourceCode(resourceDO.getResourceCode());
+        List<PeachAuthResourceDO> authResourceDOList = peachAuthResourceDao.select(authResourceDO);
+        if (!PeachCollectionUtil.isEmpty(authResourceDOList)) {
+            List<String> authResourceIdList = authResourceDOList.stream().map(PeachAuthResourceDO::getResourceId).collect(Collectors.toList());
+            PeachAuthResourceQO authResourceQO = new PeachAuthResourceQO();
+            authResourceQO.setResourceIdList(authResourceIdList);
+            peachAuthResourceDao.updateByQO(authResourceQO);
+        }
+        return Response.success();
+    }
+
+    @Override
+    public PeachAppResourceDO getByFuncCode(String funcCode,Integer isDeleted) {
+        if (StringUtil.isBlank(funcCode)) {
+            throw new ValidateException("param func is null");
+        }
+        return peachAppResourceDao.findByFuncCode(funcCode,isDeleted);
     }
 }

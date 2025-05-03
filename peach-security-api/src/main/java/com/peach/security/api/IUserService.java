@@ -3,10 +3,8 @@ package com.peach.security.api;
 
 import com.peach.common.response.PageResult;
 import com.peach.common.response.Response;
-import com.peach.security.dto.UserDTO;
 import com.peach.security.entity.PeachUserDO;
-import com.peach.security.qo.UserQO;
-import com.peach.security.vo.UserVO;
+import com.peach.security.qo.PeachUserQO;
 
 /**
  * @Author Mr Shu
@@ -21,43 +19,20 @@ public interface IUserService {
      * @param userId
      * @return
      */
-    UserVO getUserInfo(String userId);
+    PeachUserDO getUserInfo(String userId);
 
     /**
      * 获取用户分页列表
      * @param userQO
      * @return
      */
-    PageResult<PeachUserDO> getUserList(UserQO userQO);
+    PageResult<PeachUserDO> getUserList(PeachUserQO userQO);
 
     /**
      * 更新用户信息
      * @param userDO
      */
     void updateUserInfo(PeachUserDO userDO);
-
-
-    /**
-     * 用户登录
-     * @param userAccount
-     * @param password
-     * @return
-     */
-    PeachUserDO checkLogin(String userAccount, String password);
-
-    /**
-     * 校验新增用户入参
-     * @param userDTO
-     * @return
-     */
-    String validateUserDTO(UserDTO userDTO);
-
-    /**
-     * 新增用户
-     * @param userDTO
-     * @return
-     */
-    Response insert(UserDTO userDTO);
 
     /**
      * 根据用户账号获取用户信息
@@ -75,5 +50,38 @@ public interface IUserService {
      * @return
      */
     PeachUserDO register(String userAccount,String password);
+
+
+    /**
+     * 根据Id删除用户
+     * @param userId
+     * @return
+     */
+    Response deleteById(String userId);
+
+
+    /**
+     * 根据ID更新用户信息
+     *
+     * @param userDO 用户信息
+     * @return
+     */
+    Response updateUser(PeachUserDO userDO);
+
+    /**
+     * 新增用户
+     *
+     * @param userDO 用户信息
+     * @return
+     */
+    Response addUser(PeachUserDO userDO);
+
+    /**
+     * 根据userId 获取用户信息
+     *
+     * @param userId 用户ID
+     * @return
+     */
+    PeachUserDO selectById(String userId);
 
 }

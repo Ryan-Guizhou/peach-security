@@ -270,7 +270,7 @@
         r.ROLE_ID as roleId,
         p.PARTY_CODE as userCode
         FROM PEACH_ROLE r LEFT JOIN PEACH_AUTH_PARTY p ON r.ROLE_CODE = p.ROLE_CODE
-        WHERE (r.is_delete IS NULL OR r.is_delete != 1) AND p.PARTY_CODE = #{userCode}
+        WHERE (r.IS_DELETED IS NULL OR r.IS_DELETED != 1) AND p.PARTY_CODE = #{userCode}
 
     </select>
 

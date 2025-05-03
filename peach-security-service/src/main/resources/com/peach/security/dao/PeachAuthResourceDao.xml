@@ -213,6 +213,27 @@
         WHERE RESOURCE_ID =  #{resourceId,jdbcType=VARCHAR}
     </update>
 
+
+    <update id="updateByQO" parameterType="com.peach.security.qo.PeachAuthResourceQO">
+        UPDATE PEACH_AUTH_RESOURCE SET
+        <include refid="allColumnSet" />
+        <where>
+            <if test="resourceIdList != null and resourceIdList.size() > 0">
+                AND RESOURCE_ID IN
+                <foreach collection="resourceIdList" index="index" item="resourceId" open="(" separator="," close=")">
+                    #{resourceId,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            <if test="resourceCode != null and resourceCode != ''">
+                AND RESOURCE_CODE = #{resourceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="resourceType != null and resourceType != ''">
+                AND RESOURCE_TYPE = #{resourceType,jdbcType=VARCHAR}
+            </if>
+
+        </where>
+    </update>
+
     <select id="selectById" parameterType="string" resultType="com.peach.security.entity.PeachAuthResourceDO">
         SELECT
         <include refid="allColumnAlias" />
@@ -244,6 +265,25 @@
         FROM PEACH_AUTH_RESOURCE
         <where>
             <include refid="allColumnCond" />
+        </where>
+    </select>
+    <select id="selectByQO" parameterType="com.peach.security.qo.PeachAuthResourceQO" resultType="com.peach.security.entity.PeachAuthResourceDO">
+        SELECT
+        <include refid="allColumnAlias"/>
+        FROM PEACH_AUTH_RESOURCE
+        <where>
+            <if test="resourceCodeList != null and resourceCodeList.size() > 0">
+                AND RESOURCE_CODE IN
+                    <foreach collection="resourceCodeList" index="index" item="resourceCode" open="(" separator="," close=")">
+                        #{resourceCode,jdbcType=VARCHAR}
+                    </foreach>
+            </if>
+            <if test="funCodeList != null and funCodeList.size() > 0">
+                AND FUNC_CODE IN
+                <foreach collection="funCodeList" index="index" item="funcCode" open="(" separator="," close=")">
+                    #{funcCode}
+                </foreach>
+            </if>
         </where>
     </select>
 </mapper>

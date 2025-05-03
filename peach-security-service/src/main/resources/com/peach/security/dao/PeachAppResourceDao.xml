@@ -238,4 +238,14 @@
             <include refid="allColumnCond" />
         </where>
     </select>
+
+    <select id="findByFuncCode" resultType="com.peach.security.entity.PeachAppResourceDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_APP_RESOURCE
+        WHERE FUNC_CODE = #{funcCode,jdbcType=VARCHAR}
+        <if test="isDeleted != null">
+            AND IS_DELETED = #{isDeleted,jdbcType=INTEGER}
+        </if>
+    </select>
 </mapper>

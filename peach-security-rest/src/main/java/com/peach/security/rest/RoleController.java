@@ -32,13 +32,13 @@ public class RoleController {
         return roleService.addRole(roleDO);
     }
 
-    @DeleteMapping("/delById/{roleId}")
+    @PostMapping("/delById/{roleId}")
     @ApiOperation("根据ID删除角色")
     public Response delRole(@PathVariable("roleId") String roleId) {
         return roleService.deleteById(roleId);
     }
 
-    @DeleteMapping("/batchDelRole")
+    @PostMapping("/batchDelRole")
     @ApiOperation("批量删除删除角色")
     public Response batchDelRole(@RequestBody PeachRoleQO roleQO) {
         return Response.success();

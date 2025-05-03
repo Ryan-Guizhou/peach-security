@@ -1,5 +1,6 @@
 package com.peach.security.service;
 
+import com.peach.common.constant.PubCommonConst;
 import com.peach.common.exception.ValidateException;
 import com.peach.common.response.Response;
 import com.peach.common.util.IDGenerator;
@@ -55,7 +56,7 @@ public class MenuServiceImpl implements IMenuService {
         PeachMenuDO peachMenuDO = new PeachMenuDO();
         peachMenuDO.setMenuId(menuId);
         int existMenuCount = peachMenuDao.count(peachMenuDO);
-        if (existMenuCount < 0) {
+        if (existMenuCount == PubCommonConst.LOGIC_FLASE) {
             log.error("菜单ID:[{}],不存在,不允许删除", menuId);
             return Response.fail().setMsg(String.format("菜单ID:[%s],不存在,不允许删除",menuId));
         }
@@ -110,7 +111,7 @@ public class MenuServiceImpl implements IMenuService {
         PeachMenuDO peachMenuDO = new PeachMenuDO();
         peachMenuDO.setMenuCode(menuCode);
         int menuExistCount = peachMenuDao.count(peachMenuDO);
-        if(menuExistCount > 0) {
+        if(menuExistCount > PubCommonConst.LOGIC_FLASE) {
             log.error("menuCode:[{}],已存在,不允许添加",menuCode);
             throw new ValidateException(String.format("menuCode:[%s],已存在,不允许添加",menuCode));
         }

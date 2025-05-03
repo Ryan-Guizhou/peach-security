@@ -343,7 +343,7 @@
         </where>
     </select>
 
-    <select id="selectByQO" resultType="com.peach.security.entity.PeachUserDO" parameterType="com.peach.security.qo.UserQO">
+    <select id="selectByQO" resultType="com.peach.security.entity.PeachUserDO" parameterType="com.peach.security.qo.PeachUserQO">
         SELECT
         <include refid="allColumnAlias"/>
         FROM PEACH_USER
