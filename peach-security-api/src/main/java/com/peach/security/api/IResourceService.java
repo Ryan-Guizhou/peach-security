@@ -15,9 +15,9 @@ public interface IResourceService {
 
     Response delResource(List<String> resourceIdList);
 
-    Boolean addResource(PeachAppResourceDO resourceDO);
+    Boolean insert(PeachAppResourceDO resourceDO);
 
-    Response updateResource(PeachAppResourceDO resourceDO);
+    Response modify(PeachAppResourceDO resourceDO);
 
     /**
      * 根据功能编码查询资源信息,isDeleted 为null 时查询所有

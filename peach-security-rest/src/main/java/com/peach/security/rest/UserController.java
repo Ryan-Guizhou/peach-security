@@ -52,9 +52,9 @@ public class UserController {
         return Response.success();
     }
 
-    @PostMapping("/modifyUser")
+    @PostMapping("/modify")
     @ApiOperation("修改用户")
-    public Response modifyUser(@RequestBody PeachUserDO userDO) {
+    public Response modify(@RequestBody PeachUserDO userDO) {
         return userService.updateUser(userDO);
     }
 

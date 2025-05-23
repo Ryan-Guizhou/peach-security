@@ -25,9 +25,9 @@ public class FunctionController {
     @Resource
     private IFunctionService functionService;
 
-    @PostMapping("/addFuntion")
+    @PostMapping("/insert")
     @ApiOperation("新增功能")
-    public Response addFunction(@RequestBody PeachAppFunctionDO appFunctionDO) {
+    public Response insert(@RequestBody PeachAppFunctionDO appFunctionDO) {
         return Response.success();
     }
 
@@ -38,15 +38,15 @@ public class FunctionController {
     }
 
 
-    @PostMapping("/modifyResource")
+    @PostMapping("/modify")
     @ApiOperation("修改功能")
-    public Response modifyResource(@RequestBody PeachAppFunctionDO appFunctionDO) {
+    public Response modify(@RequestBody PeachAppFunctionDO appFunctionDO) {
         return Response.success();
     }
 
     @GetMapping("/getById/{fucnId}")
     @ApiOperation("根据ID获取详情")
-    public Response getFuncById(@PathVariable("funcId") Integer funcId) {
+    public Response getById(@PathVariable("funcId") Integer funcId) {
         return Response.success();
     }
 

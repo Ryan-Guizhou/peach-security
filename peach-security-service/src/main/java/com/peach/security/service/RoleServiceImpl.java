@@ -97,13 +97,13 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public Response updateRole(PeachRoleDO roleDO) {
+    public Response modify(PeachRoleDO roleDO) {
         peachRoleDao.update(roleDO);
         return Response.success();
     }
 
     @Override
-    public Response addRole(PeachRoleDO roleDO) {
+    public Response insert(PeachRoleDO roleDO) {
         if(roleDO == null) {
             log.error("新增角色信息为空");
             return Response.fail();

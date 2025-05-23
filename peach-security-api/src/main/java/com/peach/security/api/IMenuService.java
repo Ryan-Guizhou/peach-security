@@ -20,9 +20,9 @@ public interface IMenuService {
 
     Response deleteById(String menuId);
 
-    Response updateMenu(PeachMenuDO menuDO);
+    Response modify(PeachMenuDO menuDO);
 
-    Response addMenu(PeachMenuDO menuDO);
+    Response insert(PeachMenuDO menuDO);
 
     PeachMenuDO selectById(String menuId);
 }

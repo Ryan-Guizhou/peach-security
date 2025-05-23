@@ -3,6 +3,9 @@ package com.peach.security.dao;
 import com.peach.common.BaseDao;
 import com.peach.common.anno.MyBatisDao;
 import com.peach.security.entity.PeachRouterDO;
+import com.peach.security.qo.PeachRouterQO;
+
+import java.util.List;
 
 /**
  * @Author Mr Shu
@@ -13,4 +16,6 @@ import com.peach.security.entity.PeachRouterDO;
 @MyBatisDao
 public interface PeachRouterDao extends BaseDao<PeachRouterDO> {
 
+
+    List<PeachRouterDO> selectByQO(PeachRouterQO peachRouterQO);
 }

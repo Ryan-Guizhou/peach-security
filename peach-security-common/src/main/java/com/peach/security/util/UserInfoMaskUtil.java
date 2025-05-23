@@ -46,7 +46,7 @@ public class UserInfoMaskUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(maskPhone("18886200426"));
+        System.out.println(maskPhone("1888888888"));
         System.out.println(maskIdCard("520198199999992056"));
         System.out.println(maskEmail("88888888888@gmail.com"));
     }

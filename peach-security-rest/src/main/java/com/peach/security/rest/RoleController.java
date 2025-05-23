@@ -26,10 +26,10 @@ public class RoleController {
     @Resource
     private IRoleService roleService;
 
-    @PostMapping("/addRole")
+    @PostMapping("/inset")
     @ApiOperation("新增角色")
-    public Response addRole(@RequestBody PeachRoleDO roleDO) {
-        return roleService.addRole(roleDO);
+    public Response inset(@RequestBody PeachRoleDO roleDO) {
+        return roleService.insert(roleDO);
     }
 
     @PostMapping("/delById/{roleId}")
@@ -44,10 +44,10 @@ public class RoleController {
         return Response.success();
     }
 
-    @PostMapping("/modifyRule")
+    @PostMapping("/modify")
     @ApiOperation("修改角色")
-    public Response modifyRole(@RequestBody PeachRoleDO roleDO) {
-        return roleService.updateRole(roleDO);
+    public Response modify(@RequestBody PeachRoleDO roleDO) {
+        return roleService.modify(roleDO);
     }
 
     @GetMapping("/getById/{roleId}")

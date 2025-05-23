@@ -19,7 +19,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <sa-token.version>1.34.0</sa-token.version>
     </properties>
 
 
@@ -72,11 +71,6 @@
                 <groupId>com.peach.cn</groupId>
                 <artifactId>peach-fileservice-starter</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-spring-boot-starter</artifactId>
-                <version>${sa-token.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

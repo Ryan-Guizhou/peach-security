@@ -28,9 +28,9 @@ public class ResourceController {
     private IResourceService resourceService;
 
 
-    @PostMapping("/addResource")
+    @PostMapping("/insert")
     @ApiOperation("新增资源")
-    public Response addResource(@RequestBody PeachAppResourceDO resourceDO) {
+    public Response insert(@RequestBody PeachAppResourceDO resourceDO) {
         return Response.success();
     }
 
@@ -41,10 +41,10 @@ public class ResourceController {
 
     }
 
-    @PostMapping("/modifyResource")
+    @PostMapping("/modify")
     @ApiOperation("修改资源")
-    public Response modifyResource(@RequestBody PeachAppResourceDO resourceDO) {
-        return resourceService.updateResource(resourceDO);
+    public Response modify(@RequestBody PeachAppResourceDO resourceDO) {
+        return resourceService.modify(resourceDO);
     }
 
     @GetMapping("/getByFuncCode/{funcCode}")

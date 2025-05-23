@@ -226,4 +226,18 @@
             <include refid="allColumnCond" />
         </where>
     </select>
+
+    <select id="selectByQO" resultType="com.peach.security.entity.PeachRouterDO" parameterType="com.peach.security.qo.PeachRouterQO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_ROUTER
+        <where>
+            <if test="routerId != null and routerId != ''">
+                AND ROUTER_ID = #{routerId,jdbcType=VARCHAR}
+            </if>
+            <if test="routerCode != null and routerCode != ''">
+                AND ROUTER_CODE = #{routerCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
 </mapper>

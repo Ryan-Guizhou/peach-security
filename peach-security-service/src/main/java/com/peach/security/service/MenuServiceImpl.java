@@ -66,7 +66,7 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public Response updateMenu(PeachMenuDO menuDO) {
+    public Response modify(PeachMenuDO menuDO) {
         if(Objects.isNull(menuDO)) {
             String errMsg = String.format("参数错误,传参为空");
             log.error(errMsg);
@@ -96,7 +96,7 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public Response addMenu(PeachMenuDO menuDO) {
+    public Response insert(PeachMenuDO menuDO) {
         if(Objects.isNull(menuDO)) {
             String errMsg = String.format("参数错误,传参为空");
             log.error(errMsg);

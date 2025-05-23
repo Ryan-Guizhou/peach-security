@@ -81,7 +81,7 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
-    public Boolean addResource(PeachAppResourceDO resourceDO) {
+    public Boolean insert(PeachAppResourceDO resourceDO) {
         PeachAppResourceDO query = new PeachAppResourceDO();
         query.setFuncCode(resourceDO.getFuncCode());
         query.setResourceCode(resourceDO.getResourceCode());
@@ -130,7 +130,7 @@ public class ResourceServiceImpl implements IResourceService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response updateResource(PeachAppResourceDO resourceDO) {
+    public Response modify(PeachAppResourceDO resourceDO) {
        try {
            // 校验必填参数是否为空
            InputParamChecker.of(resourceDO)

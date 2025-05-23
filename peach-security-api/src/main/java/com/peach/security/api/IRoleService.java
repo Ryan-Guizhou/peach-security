@@ -24,8 +24,8 @@ public interface IRoleService {
 
     Response deleteByQO(PeachRoleQO qo);
 
-    Response updateRole(PeachRoleDO roleDO);
+    Response modify(PeachRoleDO roleDO);
 
-    Response addRole(PeachRoleDO roleDO);
+    Response insert(PeachRoleDO roleDO);
 
 }

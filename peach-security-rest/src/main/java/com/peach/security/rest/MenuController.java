@@ -26,16 +26,16 @@ public class MenuController {
     @Resource
     private IMenuService menuService;
 
-    @PostMapping("/addMenu")
+    @PostMapping("/insert")
     @ApiOperation("新增菜单")
-    public Response addMenu(@RequestBody PeachMenuDO menuDO) {
-        return menuService.addMenu(menuDO);
+    public Response insert(@RequestBody PeachMenuDO menuDO) {
+        return menuService.insert(menuDO);
     }
 
-    @PostMapping("/modifyMenu")
+    @PostMapping("/modify")
     @ApiOperation("修改菜单")
-    public Response modifyMenu(@RequestBody PeachMenuDO menuDO) {
-        return menuService.updateMenu(menuDO);
+    public Response modify(@RequestBody PeachMenuDO menuDO) {
+        return menuService.modify(menuDO);
     }
 
     @PostMapping("/delById/{menuId}")
@@ -52,7 +52,7 @@ public class MenuController {
 
     @GetMapping("/getById/{menuId}")
     @ApiOperation("根据ID获取菜单")
-    public Response getMenuById(@PathVariable("menuId") String menuId) {
+    public Response getById(@PathVariable("menuId") String menuId) {
         PeachMenuDO peachMenuDO = menuService.selectById(menuId);
         return Response.success().setData(peachMenuDO);
     }
