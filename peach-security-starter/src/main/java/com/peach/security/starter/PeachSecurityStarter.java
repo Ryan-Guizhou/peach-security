@@ -3,7 +3,6 @@ package com.peach.security.starter;
 import com.peach.common.anno.MyBatisDao;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +28,6 @@ import springfox.documentation.spring.web.plugins.Docket;
         annotationClass = MyBatisDao.class,sqlSessionFactoryRef = "mybatis-session")
 public class PeachSecurityStarter {
 
-    @Value("${knife4j.host:http://localhost:8888}")
-    private String host;
-
     /**
      * 注册定时任务模块接口文档
      * @return
@@ -39,21 +35,20 @@ public class PeachSecurityStarter {
     @Lazy
     @Bean
     public Docket securityApi() {
-        Contact contact = new Contact("PEACH","https://github.com/Ryan-Guizhou","huanhuanshu48@gmail.com");
+        Contact contact = new Contact("Ryan","https://github.com/Ryan-Guizhou","huanhuanshu48@gmail.com");
         Docket docket=new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
                         .title("PEACH-API文档")
                         .description("PEACH-API文档")
-                        .termsOfServiceUrl(host)
                         .contact(contact)
                         .version("PEACH-1.0.0")
                         .build())
                 //分组名称
-                .groupName("安全认证模块API")
+                .groupName("AUTH_API")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.peach.security"))
                 .build();
-        log.error("knife4j security has been configured");
+        log.info("knife4j AUTH_API  has been configured");
         return docket;
     }
 

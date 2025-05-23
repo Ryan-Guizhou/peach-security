@@ -25,14 +25,14 @@ public class RegisterRequestInfo implements Serializable {
     /**
      * 密码
      */
-    @javax.validation.constraints.NotBlank
+    @NotBlank
     private String password;
 
 
     /**
      * 重复密码
      */
-    @javax.validation.constraints.NotBlank
+    @NotBlank
     private String repeatPassword;
 
 }
