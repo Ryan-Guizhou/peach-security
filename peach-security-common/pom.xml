@@ -16,6 +16,12 @@
             <groupId>com.peach.cn</groupId>
             <artifactId>pub-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot-starter</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

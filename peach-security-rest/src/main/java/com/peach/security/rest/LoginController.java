@@ -2,9 +2,12 @@ package com.peach.security.rest;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.peach.common.anno.HandleLogin;
+import com.peach.common.constant.EncryptConstant;
 import com.peach.common.response.Response;
 import com.peach.common.util.IDGenerator;
 import com.peach.common.util.IpUtil;
+import com.peach.common.util.encrypt.EncryptAbstract;
+import com.peach.common.util.encrypt.EncryptFactory;
 import com.peach.security.LoginRequestInfo;
 import com.peach.security.RegisterRequestInfo;
 import com.peach.security.api.ILoginService;
@@ -12,10 +15,7 @@ import com.peach.security.exception.AuthorityException;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Indexed;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -79,5 +79,15 @@ public class LoginController {
     public Response init() {
         String uniqueKey = IDGenerator.UUID();
         return loginService.init(uniqueKey);
+    }
+
+    @GetMapping("/encrypt")
+    @ApiOperation("公钥加密")
+    public Response encrypt(String str) throws Exception {
+        String uniqueKey = IDGenerator.UUID();
+        EncryptAbstract instance = EncryptFactory.getInstance(EncryptConstant.RSA);
+        String encrypt = instance.encrypt(str);
+
+        return Response.success().setData(encrypt);
     }
 }

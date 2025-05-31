@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peach.security.dao.PeachLanguageDao">
+    <sql id="allColumn">
+        ID,                                               LANGUAGE
+    </sql>
+
+    <sql id="allColumnAlias">
+        ID as id,                                         LANGUAGE as language
+    </sql>
+
+    <sql id="allColumnValue">
+        #{id,jdbcType=VARCHAR},                 #{language,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="itemAllColumnValue">
+        #{item.id,jdbcType=VARCHAR},            #{item.language,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="allColumnSet">
+        <trim suffixOverrides=",">
+            <if test="language != null and language != ''">
+                LANGUAGE = #{language,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveColumn">
+        <trim suffixOverrides=",">
+            <if test="language != null and language != ''">
+                LANGUAGE,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveValue">
+        <trim suffixOverrides=",">
+            <if test="language != null and language != ''">
+                #{language,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="allColumnCond">
+        <if test="id != null and id != ''">
+            AND ID = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="language != null and language != ''">
+            AND LANGUAGE = #{language,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="com.peach.security.entity.PeachLanguageDO">
+        INSERT INTO PEACH_LANGUAGE (
+        <include refid="allColumn" />
+        ) VALUES (
+        <include refid="allColumnValue" />
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="com.peach.security.entity.PeachLanguageDO">
+        INSERT INTO PEACH_LANGUAGE (
+        <include refid="allColumn" />
+        ) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (<include refid="itemAllColumnValue"/>)
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.peach.security.entity.PeachLanguageDO">
+        UPDATE PEACH_LANGUAGE SET
+        <include refid="allColumnSet" />
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </update>
+
+    <delete id="delById" parameterType="string">
+        DELETE FROM PEACH_LANGUAGE
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="delByIds" parameterType="java.util.List">
+        DELETE FROM PEACH_LANGUAGE
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="del" parameterType="com.peach.security.entity.PeachLanguageDO">
+        DELETE FROM PEACH_LANGUAGE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </delete>
+
+    <update id="updateById" parameterType="java.lang.String">
+        UPDATE PEACH_LANGUAGE SET
+        <include refid="allColumnSet" />
+        WHERE ID =  #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="string" resultType="com.peach.security.entity.PeachLanguageDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_LANGUAGE
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultType="com.peach.security.entity.PeachLanguageDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_LANGUAGE
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="select" parameterType="com.peach.security.entity.PeachLanguageDO" resultType="com.peach.security.entity.PeachLanguageDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_LANGUAGE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="count" parameterType="com.peach.security.entity.PeachLanguageDO" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM PEACH_LANGUAGE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+</mapper>

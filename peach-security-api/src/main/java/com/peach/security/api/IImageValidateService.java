@@ -17,7 +17,7 @@ public interface IImageValidateService {
      * @param uniqueKey 惟一键
      * @return
      */
-    LoginConfigVO initCaptcha(String uniqueKey);
+    void initCaptcha(String uniqueKey,LoginConfigVO loginConfigVO);
 
 
     /**

@@ -4,24 +4,29 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.json.JSONUtil;
 import com.peach.common.IRedisDao;
+import com.peach.common.constant.EncryptConstant;
+import com.peach.common.constant.PubCommonConst;
 import com.peach.common.response.Response;
 import com.peach.common.util.*;
+import com.peach.common.util.encrypt.EncryptAbstract;
+import com.peach.common.util.encrypt.EncryptFactory;
 import com.peach.security.LoginInfo;
 import com.peach.security.LoginRequestInfo;
 import com.peach.security.RegisterRequestInfo;
-import com.peach.security.api.ILoginService;
-import com.peach.security.api.IMenuService;
-import com.peach.security.api.IRoleService;
-import com.peach.security.api.IUserService;
+import com.peach.security.api.*;
 import com.peach.security.common.SecurityStatusEnum;
 import com.peach.security.common.UserEnum;
+import com.peach.security.constant.LanguageConstant;
+import com.peach.security.constant.SecurityCaffineConstant;
 import com.peach.security.constant.UserStatusConstant;
+import com.peach.security.entity.PeachLanguageDO;
 import com.peach.security.entity.PeachMenuDO;
 import com.peach.security.entity.PeachRoleDO;
 import com.peach.security.entity.PeachUserDO;
 import com.peach.security.exception.AuthorityException;
 import com.peach.security.exception.ExpiredPasswordException;
 import com.peach.security.exception.RegisterException;
+import com.peach.security.vo.LoginConfigVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Indexed;
 import org.springframework.stereotype.Service;
@@ -67,6 +72,14 @@ public class LoginServiceImpl implements ILoginService {
     @Resource
     private IRedisDao redisDao;
 
+    @Resource
+    private IPeachLanguage peachLanguage;
+
+
+    @Resource
+    private IImageValidateService iImageValidateService;
+
+
     @Override
     public Response logout(HttpServletRequest request) {
         return Response.success();
@@ -75,8 +88,32 @@ public class LoginServiceImpl implements ILoginService {
     @Override
     public Response init(String uniqueKey) {
 
-        return Response.success();
+        LoginConfigVO loginConfigVO = new LoginConfigVO();
+        //1、获取语言类型
+        PeachLanguageDO peachLanguageDO = CaffeineUtil.get(SecurityCaffineConstant.SECURITY_CAFFINE_KEY_LANGUAGE,()->{
+            return peachLanguage.getPeachLanguage();
+        });
+        String language = StringUtil.isNotEmpty(peachLanguageDO.getLanguage()) ? peachLanguageDO.getLanguage() : LanguageConstant.DEFAULT_LANGUAGE;
+        loginConfigVO.setLanguage(language);
+
+        // 获取公钥
+        EncryptAbstract instance = EncryptFactory.getInstance(EncryptConstant.RSA);
+
+        String publicKey = StringUtil.EMPTY;
+        try{
+            publicKey = instance.getRsaInfo().get(EncryptConstant.PUBLIC_KEY);
+        }catch (Exception e){
+            throw new RuntimeException("获取RSA 公钥失败");
+        }
+        loginConfigVO.setPublicKey(publicKey);
+
+        if (loginConfigVO.getValidateType() != null && PubCommonConst.VALIDATE_TYPE_IMAGE == loginConfigVO.getValidateType()){
+            // 如果启用了滑块验证 获取滑块相关信息
+            iImageValidateService.initCaptcha(uniqueKey,loginConfigVO);
+        }
+        return Response.success().setData(loginConfigVO);
     }
+
 
     @Override
     public Response login(LoginRequestInfo loginRequestInfo) {
@@ -304,9 +341,9 @@ public class LoginServiceImpl implements ILoginService {
     /**
      * 校验密码是否正确
      *
-     * @param existPassword 数据库中存在的密码
+     * @param userDO 数据库中存在的密码
      * @param inputPassword 用户输入的密码
-     * @param userAccount 用户名
+     * @param inputPassword 用户名
      */
     private void checkUserPassword(PeachUserDO userDO,String inputPassword) {
         String userAccount = userDO.getUserAccount();

@@ -1,5 +1,6 @@
 package com.peach.security.starter;
 
+
 import com.peach.common.anno.MyBatisDao;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
@@ -29,14 +30,14 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class PeachSecurityStarter {
 
     /**
-     * 注册定时任务模块接口文档
+     * 注册权限校验模块接口文档
      * @return
      */
     @Lazy
     @Bean
     public Docket securityApi() {
         Contact contact = new Contact("Ryan","https://github.com/Ryan-Guizhou","huanhuanshu48@gmail.com");
-        Docket docket=new Docket(DocumentationType.SWAGGER_2)
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
                         .title("PEACH-API文档")
                         .description("PEACH-API文档")
