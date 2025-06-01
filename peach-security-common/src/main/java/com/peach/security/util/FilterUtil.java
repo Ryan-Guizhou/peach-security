@@ -21,6 +21,7 @@ public class FilterUtil {
     public static List<String> EXCLUDE_PATH_LIST = Arrays.asList("/doc.html", "/swagger-ui.html", "/swagger-resources/**",
             "/v2/api-docs", "/v3/api-docs", "/webjars/**",
             "/favicon.ico", "/error", "/csrf",
+            "/.well-known/appspecific/com.chrome.devtools.json",
             "/**/*.js", "/**/*.css", "/**/*.png","/login","/init","/encrypt");
 
     public static List<String> getCheckPathList() {

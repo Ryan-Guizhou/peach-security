@@ -2,9 +2,11 @@ package com.peach.security.service;
 
 import cn.hutool.crypto.digest.DigestUtil;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.peach.common.constant.*;
 import com.peach.common.response.Response;
 import com.peach.common.util.PeachCollectionUtil;
+import com.peach.common.util.StringUtil;
 import com.peach.common.util.ThrowUtil;
 import com.peach.common.util.encrypt.EncryptAbstract;
 import com.peach.common.util.encrypt.EncryptFactory;
@@ -34,7 +36,7 @@ import java.util.jar.JarFile;
 /**
  * @Author Mr Shu
  * @Version 1.0.0
- * @Description //TODO
+ * @Description 验证码校验类
  * @CreateTime 2025/3/14 17:44
  */
 @Slf4j
@@ -133,15 +135,55 @@ public class ImageValidateServiceImpl implements IImageValidateService {
     }
 
 
-    @Override
-    public LoginConfigVO getCaptcha(String uniqueKey) {
-        return null;
-    }
-
-
+    /**
+     * 只有返回code = 1 时为验证成功
+     * @param token 验证码token
+     * @param x 验证码x坐标
+     * @param y 验证码y坐标
+     * @return
+     */
     @Override
     public Response checkCaptcha(String token, int x, int y) {
-        return null;
+        EncryptAbstract instance = EncryptFactory.getInstance(EncryptConstant.AES);
+        String decryptToken = StringUtil.EMPTY;
+        try {
+            decryptToken = instance.decrypt(token);
+        } catch (Exception e) {
+            log.error("验证码token解密失败"+e.getMessage(),e);
+            throw new RuntimeException("验证码token解密失败");
+        }
+        final String finalDecryptToken = RedisConstant.KEY_VALIDATE_TOKEN + ":" + decryptToken;
+        // 根据坐标验证是否正确组装返回结构
+        Map<String,Object> resultMap = Maps.newHashMap();
+        resultMap.put("code",2);
+        resultMap.put("message","Verfication fail!");
+        if (StringUtil.isBlank(decryptToken)) {
+            // 解密失败或token为空
+            resultMap.put("code", 0);
+        } else {
+            Map<Object, Object> entries = redisTemplate.opsForHash().entries(finalDecryptToken);
+            String xStr = StringUtil.getStringValue(entries.get("X"));
+            String yStr = StringUtil.getStringValue(entries.get("Y"));
+            if (StringUtil.isBlank(xStr) || StringUtil.isBlank(yStr)) {
+                resultMap.put("code", 0);
+            } else {
+                try {
+                    int realX = Integer.parseInt(xStr);
+                    int realY = Integer.parseInt(yStr);
+
+                    if (realY == y && Math.abs(realX - x) <= 5) {
+                        resultMap.put("code", 1);
+                        resultMap.put("message", "Verification success!");
+                    }
+                } catch (NumberFormatException e) {
+                    log.error("Failed to parse X/Y values from Redis: {}", entries, e);
+                    resultMap.put("code", 0);
+                }
+            }
+        }
+        // 使用过之后立即删除缓存
+        redisTemplate.opsForHash().delete(finalDecryptToken);
+        return Response.success().setData(resultMap);
     }
 
     /**
@@ -151,7 +193,7 @@ public class ImageValidateServiceImpl implements IImageValidateService {
      */
     private List<byte[]> toArrayByte(List<String> array) {
         List<byte[]> resultList = new ArrayList<byte[]>();
-        if (array != null) {
+        if (array == null) {
             return resultList;
         }
 
@@ -169,7 +211,7 @@ public class ImageValidateServiceImpl implements IImageValidateService {
      */
     private List<String> toArrayString(List<byte[]> array) {
         List<String> resultList = new ArrayList<>();
-        if (array != null) {
+        if (array == null) {
             return resultList;
         }
         for (int i = 0; i < array.size(); i++) {

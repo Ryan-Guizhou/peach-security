@@ -23,14 +23,6 @@ public interface IImageValidateService {
     /**
      * 校验验证码
      *
-     * @param uniqueKey 标识惟一键
-     * @return
-     */
-    LoginConfigVO getCaptcha(String uniqueKey);
-
-    /**
-     * 校验验证码
-     *
      * @param token 验证码token
      * @param x 验证码x坐标
      * @param y 验证码y坐标

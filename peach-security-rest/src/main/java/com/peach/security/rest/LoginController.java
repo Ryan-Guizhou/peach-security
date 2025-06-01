@@ -90,4 +90,10 @@ public class LoginController {
 
         return Response.success().setData(encrypt);
     }
+
+    @PostMapping("/validateImage")
+    @ApiOperation("初始化资源")
+    public Response validateImage(@RequestBody LoginRequestInfo loginRequestInfo) {
+        return loginService.validateImage(loginRequestInfo);
+    }
 }

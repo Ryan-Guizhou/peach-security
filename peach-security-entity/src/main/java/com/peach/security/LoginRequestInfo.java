@@ -35,4 +35,14 @@ public class LoginRequestInfo implements Serializable {
      */
     private String remoteIp;
 
+    /**
+     * 验证类型
+     */
+    private String validateType;
+
+    /**
+     * 滑块验证X轴坐标
+     */
+    private Integer X;
+
 }

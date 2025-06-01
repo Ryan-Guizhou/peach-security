@@ -1,5 +1,5 @@
 server:
-  port: 8877
+  port: 8888
   tomcat:
     basedir: D:/temp
   servlet:

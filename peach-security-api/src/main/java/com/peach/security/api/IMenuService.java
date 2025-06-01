@@ -3,6 +3,7 @@ package com.peach.security.api;
 import com.peach.common.response.Response;
 import com.peach.security.entity.PeachMenuDO;
 import com.peach.security.qo.PeachMenuQO;
+import com.peach.security.vo.MenuVO;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface IMenuService {
 
     List<PeachMenuDO> selectByQO(PeachMenuQO qo);
 
-    List<PeachMenuDO> selectByRoleCodeList(List<String> roleCodeList);
+    List<MenuVO> selectByRoleCodeList(List<String> roleCodeList);
 
     Response deleteById(String menuId);
 

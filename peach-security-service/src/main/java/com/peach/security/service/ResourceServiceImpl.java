@@ -14,6 +14,7 @@ import com.peach.security.entity.PeachAppResourceDO;
 import com.peach.security.entity.PeachAuthFunctionDO;
 import com.peach.security.entity.PeachAuthResourceDO;
 import com.peach.security.qo.PeachAuthResourceQO;
+import com.peach.security.vo.ResourceVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Indexed;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,7 @@ public class ResourceServiceImpl implements IResourceService {
     private PeachAuthFunctionDao peachAuthFunctionDao;
 
     @Override
-    public Response delResource(List<String> resourceIdList) {
+    public Response del(List<String> resourceIdList) {
         if (PeachCollectionUtil.isEmpty(resourceIdList)) {
             throw new ValidateException("params resourceIdList is empty");
         }
@@ -180,5 +181,15 @@ public class ResourceServiceImpl implements IResourceService {
             throw new ValidateException("param func is null");
         }
         return peachAppResourceDao.findByFuncCode(funcCode,isDeleted);
+    }
+
+    @Override
+    public List<ResourceVO> getByRoleCode(List<String> roleCodeList) {
+        if (StringUtil.isBlank(roleCodeList)) {
+            return Lists.newArrayList();
+        }
+        List<ResourceVO> resourceVOList = peachAuthResourceDao.selectByRoleCodeList(roleCodeList);
+
+        return PeachCollectionUtil.isNotEmpty(resourceVOList) ? resourceVOList : Lists.newArrayList();
     }
 }

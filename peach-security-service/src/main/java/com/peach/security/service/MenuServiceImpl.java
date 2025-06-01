@@ -1,5 +1,6 @@
 package com.peach.security.service;
 
+import com.google.common.collect.Lists;
 import com.peach.common.constant.PubCommonConst;
 import com.peach.common.exception.ValidateException;
 import com.peach.common.response.Response;
@@ -7,16 +8,21 @@ import com.peach.common.util.IDGenerator;
 import com.peach.common.util.PeachCollectionUtil;
 import com.peach.common.util.StringUtil;
 import com.peach.security.api.IMenuService;
+import com.peach.security.api.IResourceService;
 import com.peach.security.dao.PeachMenuDao;
 import com.peach.security.entity.PeachMenuDO;
 import com.peach.security.qo.PeachMenuQO;
+import com.peach.security.vo.MenuVO;
+import com.peach.security.vo.ResourceVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @Author Mr Shu
@@ -31,6 +37,9 @@ public class MenuServiceImpl implements IMenuService {
     @Resource
     private PeachMenuDao peachMenuDao;
 
+    @Resource
+    private IResourceService resourceService;
+
     @Override
     public List<PeachMenuDO> selectByQO(PeachMenuQO qo) {
         List<PeachMenuDO> menuDOList = peachMenuDao.selectByQO(qo);
@@ -38,12 +47,29 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public List<PeachMenuDO> selectByRoleCodeList(List<String> roleCodeList) {
+    public List<MenuVO> selectByRoleCodeList(List<String> roleCodeList) {
         if (PeachCollectionUtil.isEmpty(roleCodeList)) {
             throw new ValidateException("method:selectByRoleCodeList 参数为空");
         }
-        List<PeachMenuDO> menuDOList = peachMenuDao.selectByRoleCodeList(roleCodeList);
-        return PeachCollectionUtil.isEmpty(menuDOList) ? Collections.emptyList() : menuDOList;
+        List<MenuVO> menuDOList = peachMenuDao.selectByRoleCodeList(roleCodeList);
+        if (PeachCollectionUtil.isEmpty(menuDOList)) {
+            return Lists.newArrayList();
+        }
+        List<ResourceVO> resourceVOList = resourceService.getByRoleCode(roleCodeList);
+        if (PeachCollectionUtil.isNotEmpty(resourceVOList)) {
+            Map<String, List<ResourceVO>> resourceMap = resourceVOList.stream()
+                    .collect(Collectors.groupingBy(ResourceVO::getFuncCode));
+
+            menuDOList.stream().forEach(resourceVO -> {
+                String funcCode = resourceVO.getFuncCode();
+                if (resourceMap.containsKey(funcCode)) {
+                    List<ResourceVO> authResourceList = resourceMap.get(funcCode);
+                    resourceVO.setAuthResourceList(authResourceList);
+                }
+            });
+        }
+        return menuDOList;
+
     }
 
     @Override

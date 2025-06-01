@@ -23,4 +23,6 @@ public class CurrentUserDO implements Serializable {
 
     private String spaceId;
 
+    private String language;
+
 }

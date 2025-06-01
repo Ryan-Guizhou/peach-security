@@ -286,4 +286,8 @@
             </if>
         </where>
     </select>
+
+    <select id="selectByRoleCodeList" resultType="com.peach.security.vo.ResourceVO">
+
+    </select>
 </mapper>

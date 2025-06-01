@@ -4,6 +4,7 @@ import com.peach.common.BaseDao;
 import com.peach.common.anno.MyBatisDao;
 import com.peach.security.entity.PeachMenuDO;
 import com.peach.security.qo.PeachMenuQO;
+import com.peach.security.vo.MenuVO;
 import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public interface PeachMenuDao extends BaseDao<PeachMenuDO> {
      * @param roleCodeList 角色集合
      * @return
      */
-    List<PeachMenuDO> selectByRoleCodeList(@Param("roleCodeList") List<String> roleCodeList);
+    List<MenuVO> selectByRoleCodeList(@Param("roleCodeList") List<String> roleCodeList);
 
     PeachMenuDO selectByMenuCode(@Param("menuCode") String menuCode);
 }

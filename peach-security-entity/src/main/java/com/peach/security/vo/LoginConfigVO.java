@@ -58,5 +58,17 @@ public class LoginConfigVO implements Serializable {
     /**
      * 验证类型
      */
-    private Integer validateType;
+    private String validateType;
+
+    /**
+     * logo 图片地址
+     */
+    private String logoUrl;
+
+    /**
+     * 版权信息
+     */
+    private String copyRight;
+
+
 }

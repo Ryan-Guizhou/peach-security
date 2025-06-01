@@ -8,5 +8,5 @@ package com.peach.security.constant;
  */
 public interface LanguageConstant {
 
-    String DEFAULT_LANGUAGE = "zh-cn";
+    String DEFAULT_LANGUAGE = "zh";
 }

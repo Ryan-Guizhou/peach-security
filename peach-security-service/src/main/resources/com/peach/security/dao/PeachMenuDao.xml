@@ -379,7 +379,7 @@
         </where>
     </select>
 
-    <select id="selectByRoleCodeList" resultType="com.peach.security.entity.PeachMenuDO" parameterType="java.util.List">
+    <select id="selectByRoleCodeList" resultType="com.peach.security.vo.MenuVO" parameterType="java.util.List">
         SELECT DISTINCT m.MENU_ID As "menuId",
         m.PARENT_MENU_ID as "parentMenuId",
         m.MENU_NAME as "menuName",
@@ -393,9 +393,9 @@
         m.FUNC_CODE,
         m.SORT_NO AS "sortNo",
         m.MENU_ICON as "menuIcon"
-        FROM AFA_APP_MENU m
-        LEFT JOIN AFA_APP_FUNCTION f ON m.FUNC_CODE = f.FUNC_CODE
-        LEFT JOIN AFA_AUTH_FUNCTION af ON f.FUNC_CODE = af.FUNC_CODE
+        FROM PEACH_MENU m
+        LEFT JOIN PEACH_APP_FUNCTION f ON m.FUNC_CODE = f.FUNC_CODE
+        LEFT JOIN PEACH_AUTH_FUNCTION af ON f.FUNC_CODE = af.FUNC_CODE
         WHERE af.PARTY_CODE IN
         <foreach collection="roleCodeList" index="index" item="roleCode" open="(" separator="," close=")">
             #{roleCode,jdbcType=VARCHAR}

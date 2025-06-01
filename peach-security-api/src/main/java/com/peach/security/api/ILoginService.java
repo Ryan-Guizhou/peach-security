@@ -42,4 +42,11 @@ public interface ILoginService {
      * @return
      */
     Response init(String uniqueKey);
+
+    /**
+     * 滑块验证
+     * @param loginRequestInfo
+     * @return
+     */
+    Response validateImage(LoginRequestInfo loginRequestInfo);
 }

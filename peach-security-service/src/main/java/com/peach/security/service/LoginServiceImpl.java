@@ -19,14 +19,12 @@ import com.peach.security.common.UserEnum;
 import com.peach.security.constant.LanguageConstant;
 import com.peach.security.constant.SecurityCaffineConstant;
 import com.peach.security.constant.UserStatusConstant;
-import com.peach.security.entity.PeachLanguageDO;
-import com.peach.security.entity.PeachMenuDO;
-import com.peach.security.entity.PeachRoleDO;
-import com.peach.security.entity.PeachUserDO;
+import com.peach.security.entity.*;
 import com.peach.security.exception.AuthorityException;
 import com.peach.security.exception.ExpiredPasswordException;
 import com.peach.security.exception.RegisterException;
 import com.peach.security.vo.LoginConfigVO;
+import com.peach.security.vo.MenuVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Indexed;
 import org.springframework.stereotype.Service;
@@ -53,12 +51,14 @@ public class LoginServiceImpl implements ILoginService {
     /**
      * 用户名校验正则表达式
      */
-    private final String userAccountReg = "^[a-zA-Z0-9\\u4e00-\\u9fa5_-]{2,100}$";
+    private static final String userAccountReg = "^[a-zA-Z0-9\\u4e00-\\u9fa5_-]{2,100}$";
 
     /**
      * 用户密码校验正则表达式
      */
-    private final String userPasswordReg = "^.{9,}$";
+    private static final String userPasswordReg = "^.{9,}$";
+
+    private static final int y = 5;
 
     @Resource
     private IUserService userService;
@@ -75,9 +75,14 @@ public class LoginServiceImpl implements ILoginService {
     @Resource
     private IPeachLanguage peachLanguage;
 
+    @Resource
+    private IImageValidateService imageValidateService;
 
     @Resource
-    private IImageValidateService iImageValidateService;
+    private IConfigService configService;
+
+    @Resource
+    private IRouterService routerService;
 
 
     @Override
@@ -107,11 +112,31 @@ public class LoginServiceImpl implements ILoginService {
         }
         loginConfigVO.setPublicKey(publicKey);
 
-        if (loginConfigVO.getValidateType() != null && PubCommonConst.VALIDATE_TYPE_IMAGE == loginConfigVO.getValidateType()){
+        // 补充页面配置信息
+        PeachConfigDO configInfo = configService.getConfigInfo();
+        loginConfigVO.setBackgroundImage(configInfo.getBackgroundUrl());
+        loginConfigVO.setAppName(configInfo.getTitle());
+        loginConfigVO.setLogoUrl(configInfo.getLogoUrl());
+        loginConfigVO.setCopyRight(configInfo.getCopyRight());
+        loginConfigVO.setValidateType(configInfo.getValidateType());
+
+        // 如果启用了滑块验证方式 初始化滑块验证信息
+        if (loginConfigVO.getValidateType() != null && PubCommonConst.VALIDATE_TYPE_IMAGE.equals(Integer.valueOf(loginConfigVO.getValidateType()))) {
             // 如果启用了滑块验证 获取滑块相关信息
-            iImageValidateService.initCaptcha(uniqueKey,loginConfigVO);
+            imageValidateService.initCaptcha(uniqueKey,loginConfigVO);
         }
         return Response.success().setData(loginConfigVO);
+    }
+
+    @Override
+    public Response validateImage(LoginRequestInfo loginRequestInfo) {
+        try {
+            InputParamChecker.of(loginRequestInfo).checkFields("X","token");
+        } catch (ValidationException e) {
+            log.error("params error"+e.getMessage(),e);
+            throw new RuntimeException(e);
+        }
+        return imageValidateService.checkCaptcha(loginRequestInfo.getToken(),loginRequestInfo.getX(),y);
     }
 
 
@@ -123,18 +148,25 @@ public class LoginServiceImpl implements ILoginService {
         // 1、校验用户名密码
         decryptLoginInfo(loginRequestInfo);
 
-        // 2、根据是否配置验证码、二因子验证 校验
-
-        // 3、登录
+        // 2、登录
         PeachUserDO peachUserDO = getPeachUserDO(loginRequestInfo);
+        if (Objects.isNull(peachUserDO)) {
+            return Response.success().setMsg("用户或密码错误");
+        }
 
-        // 4、登录成功,获取菜单、路由、角色等信息
+        // 3、登录成功,获取菜单、路由、角色等信息
         List<PeachRoleDO> roleList = roleService.selectByUserCode(loginRequestInfo.getUserAccount());
+        if (PeachCollectionUtil.isEmpty(roleList)) {
+            log.error("该用户:[{}]没有赋予角色信息",loginRequestInfo.getUserAccount());
+            return Response.fail().setMsg("该用户没有赋予角色");
+        }
         List<String> roleCodeList = roleList.stream().map(PeachRoleDO::getRoleCode).collect(Collectors.toList());
-//        List<PeachMenuDO> menuList = menuService.selectByRoleCodeList(roleCodeList);
-        // 5、生成token
-
-        // 6、返回登录信息
+        List<MenuVO> menuList = menuService.selectByRoleCodeList(roleCodeList);
+        if (PeachCollectionUtil.isEmpty(menuList)) {
+            log.error("该用户:[{}]没有赋予菜单权限",loginRequestInfo.getUserAccount());
+            return Response.fail().setMsg("该用户没有赋予菜单权限");
+        }
+        List<PeachRouterDO> routerDOList = routerService.selectAll();
 
         StpUtil.login(peachUserDO.getId());
         LoginInfo loginInfo = new LoginInfo();
@@ -144,6 +176,9 @@ public class LoginServiceImpl implements ILoginService {
         loginInfo.setPhone(peachUserDO.getPhone());
         loginInfo.setStatus(peachUserDO.getStatus());
         loginInfo.setToken(StpUtil.getTokenValue());
+        loginInfo.setMenuList(menuList);
+        loginInfo.setRoleList(roleList);
+        loginInfo.setRouterDOList(routerDOList);
         return Response.success().setData(loginInfo);
     }
 

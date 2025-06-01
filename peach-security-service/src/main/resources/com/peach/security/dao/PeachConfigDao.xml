@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peach.security.dao.PeachConfigDao">
+    <sql id="allColumn">
+        ID,                                               validateType,                                     TITLE,                                            BACKGROUND_URL,
+        COPY_RIGHT,                                       LOGO_URL,                                         CREATOR,                                          CREATE_TIME,
+        UPDATE_TIME,                                      COLOR
+    </sql>
+
+    <sql id="allColumnAlias">
+        ID as id,                                         validateType as validateType,                     TITLE as title,                                   BACKGROUND_URL as backgroundUrl,
+        COPY_RIGHT as copyRight,                          LOGO_URL as logoUrl,                              CREATOR as creator,                               CREATE_TIME as createTime,
+        UPDATE_TIME as updateTime,                        COLOR as color
+    </sql>
+
+    <sql id="allColumnValue">
+        #{id,jdbcType=VARCHAR},                 #{validateType,jdbcType=VARCHAR},       #{title,jdbcType=VARCHAR},              #{backgroundUrl,jdbcType=VARCHAR},
+        #{copyRight,jdbcType=VARCHAR},          #{logoUrl,jdbcType=VARCHAR},            #{creator,jdbcType=VARCHAR},            #{createTime,jdbcType=VARCHAR},
+        #{updateTime,jdbcType=VARCHAR},         #{color,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="itemAllColumnValue">
+        #{item.id,jdbcType=VARCHAR},            #{item.validateType,jdbcType=VARCHAR},  #{item.title,jdbcType=VARCHAR},         #{item.backgroundUrl,jdbcType=VARCHAR},
+        #{item.copyRight,jdbcType=VARCHAR},     #{item.logoUrl,jdbcType=VARCHAR},       #{item.creator,jdbcType=VARCHAR},       #{item.createTime,jdbcType=VARCHAR},
+        #{item.updateTime,jdbcType=VARCHAR},    #{item.color,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="allColumnSet">
+        <trim suffixOverrides=",">
+            <if test="validateType != null and validateType != ''">
+                validateType = #{validateType,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null and title != ''">
+                TITLE = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="backgroundUrl != null and backgroundUrl != ''">
+                BACKGROUND_URL = #{backgroundUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="copyRight != null and copyRight != ''">
+                COPY_RIGHT = #{copyRight,jdbcType=VARCHAR},
+            </if>
+            <if test="logoUrl != null and logoUrl != ''">
+                LOGO_URL = #{logoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="color != null and color != ''">
+                COLOR = #{color,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveColumn">
+        <trim suffixOverrides=",">
+            <if test="validateType != null and validateType != ''">
+                validateType,
+            </if>
+            <if test="title != null and title != ''">
+                TITLE,
+            </if>
+            <if test="backgroundUrl != null and backgroundUrl != ''">
+                BACKGROUND_URL,
+            </if>
+            <if test="copyRight != null and copyRight != ''">
+                COPY_RIGHT,
+            </if>
+            <if test="logoUrl != null and logoUrl != ''">
+                LOGO_URL,
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR,
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                UPDATE_TIME,
+            </if>
+            <if test="color != null and color != ''">
+                COLOR,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveValue">
+        <trim suffixOverrides=",">
+            <if test="validateType != null and validateType != ''">
+                #{validateType,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null and title != ''">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="backgroundUrl != null and backgroundUrl != ''">
+                #{backgroundUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="copyRight != null and copyRight != ''">
+                #{copyRight,jdbcType=VARCHAR},
+            </if>
+            <if test="logoUrl != null and logoUrl != ''">
+                #{logoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="color != null and color != ''">
+                #{color,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="allColumnCond">
+        <if test="id != null and id != ''">
+            AND ID = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="validateType != null and validateType != ''">
+            AND validateType = #{validateType,jdbcType=VARCHAR}
+        </if>
+        <if test="title != null and title != ''">
+            AND TITLE = #{title,jdbcType=VARCHAR}
+        </if>
+        <if test="backgroundUrl != null and backgroundUrl != ''">
+            AND BACKGROUND_URL = #{backgroundUrl,jdbcType=VARCHAR}
+        </if>
+        <if test="copyRight != null and copyRight != ''">
+            AND COPY_RIGHT = #{copyRight,jdbcType=VARCHAR}
+        </if>
+        <if test="logoUrl != null and logoUrl != ''">
+            AND LOGO_URL = #{logoUrl,jdbcType=VARCHAR}
+        </if>
+        <if test="creator != null and creator != ''">
+            AND CREATOR = #{creator,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            AND CREATE_TIME = #{createTime,jdbcType=VARCHAR}
+        </if>
+        <if test="updateTime != null and updateTime != ''">
+            AND UPDATE_TIME = #{updateTime,jdbcType=VARCHAR}
+        </if>
+        <if test="color != null and color != ''">
+            AND COLOR = #{color,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="com.peach.security.entity.PeachConfigDO">
+        INSERT INTO PEACH_CONFIG (
+        <include refid="allColumn" />
+        ) VALUES (
+        <include refid="allColumnValue" />
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="com.peach.security.entity.PeachConfigDO">
+        INSERT INTO PEACH_CONFIG (
+        <include refid="allColumn" />
+        ) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (<include refid="itemAllColumnValue"/>)
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.peach.security.entity.PeachConfigDO">
+        UPDATE PEACH_CONFIG SET
+        <include refid="allColumnSet" />
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </update>
+
+    <delete id="delById" parameterType="string">
+        DELETE FROM PEACH_CONFIG
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="delByIds" parameterType="java.util.List">
+        DELETE FROM PEACH_CONFIG
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="del" parameterType="com.peach.security.entity.PeachConfigDO">
+        DELETE FROM PEACH_CONFIG
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </delete>
+
+    <update id="updateById" parameterType="java.lang.String">
+        UPDATE PEACH_CONFIG SET
+        <include refid="allColumnSet" />
+        WHERE ID =  #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="string" resultType="com.peach.security.entity.PeachConfigDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_CONFIG
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultType="com.peach.security.entity.PeachConfigDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_CONFIG
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="select" parameterType="com.peach.security.entity.PeachConfigDO" resultType="com.peach.security.entity.PeachConfigDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_CONFIG
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="count" parameterType="com.peach.security.entity.PeachConfigDO" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM PEACH_CONFIG
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+</mapper>
