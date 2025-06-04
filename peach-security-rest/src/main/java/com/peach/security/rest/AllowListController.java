@@ -30,7 +30,7 @@ public class AllowListController {
 
     @ApiOperation("分页查询白名单配置")
     @PostMapping("/selectByPage")
-    public Response selectByPage(PeachWitheListQO peachWitheListQO) {
+    public Response selectByPage(@RequestBody PeachWitheListQO peachWitheListQO) {
         PageResult<PeachWitheListDO> pageResult = witheListService.selectByPage(peachWitheListQO);
         return Response.success().setData(pageResult);
     }
@@ -38,14 +38,14 @@ public class AllowListController {
 
     @ApiOperation("新增白名单配置")
     @PostMapping("/insert")
-    public Response insert(PeachWitheListDO peachWitheListDO) {
+    public Response insert(@RequestBody PeachWitheListDO peachWitheListDO) {
         witheListService.insert(peachWitheListDO);
         return Response.success();
     }
 
     @ApiOperation("删除白名单配置信息")
     @PostMapping("/batchDel")
-    public Response batchDel(List<String> ids) {
+    public Response batchDel(@RequestBody List<String> ids) {
         witheListService.deleteByIds(ids);
         return Response.success();
     }

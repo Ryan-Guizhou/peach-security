@@ -30,21 +30,21 @@ public class OptionController {
 
     @ApiOperation("分页查询值集")
     @PostMapping("/selectByPage")
-    public Response selectByPage(PeachOptionQO peachOptionQO) {
+    public Response selectByPage(@RequestBody PeachOptionQO peachOptionQO) {
         PageResult<PeachOptionDO> pageResult = optionService.selectByPage(peachOptionQO);
         return Response.success().setData(pageResult);
     }
 
     @ApiOperation("新增值集")
     @PostMapping("/insert")
-    public Response insert(PeachOptionDO peachOptionDO) {
+    public Response insert(@RequestBody PeachOptionDO peachOptionDO) {
         optionService.insert(peachOptionDO);
         return Response.success();
     }
 
     @ApiOperation("删除值集")
     @PostMapping("/batchDel")
-    public Response batchDel(List<String> ids) {
+    public Response batchDel(@RequestBody List<String> ids) {
         optionService.deleteByIds(ids);
         return Response.success();
     }

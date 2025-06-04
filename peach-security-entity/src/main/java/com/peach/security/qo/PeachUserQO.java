@@ -3,6 +3,7 @@ package com.peach.security.qo;
 import com.peach.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @CreateTime 2025/5/2 17:57
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class PeachUserQO extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

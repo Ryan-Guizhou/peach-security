@@ -46,7 +46,7 @@ public class MenuController {
 
     @PostMapping("/batchDelMenu")
     @ApiOperation("批量删除菜单")
-    public Response batchDelMenu(PeachMenuQO menuQO) {
+    public Response batchDelMenu(@RequestBody PeachMenuQO menuQO) {
         return Response.success();
     }
 

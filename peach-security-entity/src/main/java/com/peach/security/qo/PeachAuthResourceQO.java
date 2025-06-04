@@ -3,6 +3,7 @@ package com.peach.security.qo;
 import com.peach.security.entity.PeachAuthResourceDO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @CreateTime 2025/05/02 00:39
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class PeachAuthResourceQO extends PeachAuthResourceDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,5 +28,9 @@ public class PeachAuthResourceQO extends PeachAuthResourceDO implements Serializ
 
     @ApiModelProperty(value = "已授权资源编码集合")
     private List<String> resourceCodeList;
+
+    public PeachAuthResourceQO() {
+
+    }
 
 }

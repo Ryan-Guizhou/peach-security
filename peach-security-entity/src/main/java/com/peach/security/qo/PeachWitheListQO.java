@@ -22,4 +22,6 @@ public class PeachWitheListQO extends BaseEntity implements Serializable {
     private String id;
 
     private List<String> idList;
+
+    public PeachWitheListQO() {}
 }

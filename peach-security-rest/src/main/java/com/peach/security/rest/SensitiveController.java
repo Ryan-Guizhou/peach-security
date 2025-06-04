@@ -2,9 +2,9 @@ package com.peach.security.rest;
 
 import com.peach.common.response.PageResult;
 import com.peach.common.response.Response;
-import com.peach.security.api.IRouterService;
-import com.peach.security.entity.PeachRouterDO;
-import com.peach.security.qo.PeachRouterQO;
+import com.peach.security.api.ISensitiveService;
+import com.peach.security.entity.PeachSensitiveDO;
+import com.peach.security.qo.PeachSensitiveQO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Indexed;
@@ -26,48 +26,40 @@ import java.util.List;
 public class SensitiveController {
 
     @Resource
-    private IRouterService routerService;
+    private ISensitiveService sensitiveService;
 
-    @ApiOperation("分页查询路由")
+    @ApiOperation("分页查询敏感词配置")
     @PostMapping("/selectByPage")
-    public Response selectByPage(PeachRouterQO peachRouterQO) {
-        PageResult<PeachRouterDO> pageResult = routerService.selectByPage(peachRouterQO);
+    public Response selectByPage(@RequestBody PeachSensitiveQO peachSensitiveQO) {
+        PageResult<PeachSensitiveDO> pageResult = sensitiveService.selectByPage(peachSensitiveQO);
         return Response.success().setData(pageResult);
     }
 
-
-    @ApiOperation("根据id列表删除路由")
-    @PostMapping("/delByIds")
-    public Response delByIds(List<String> ids) {
-        routerService.deleteByIds(ids);
-        return Response.success();
-    }
-
-    @ApiOperation("新增路由")
+    @ApiOperation("新增敏感词配置")
     @PostMapping("/insert")
-    public Response insert(List<String> ids) {
-        routerService.deleteByIds(ids);
+    public Response insert(@RequestBody List<String> ids) {
+        sensitiveService.deleteByIds(ids);
         return Response.success();
     }
 
-    @ApiOperation("删除路由信息")
+    @ApiOperation("删除敏感词配置信息")
     @PostMapping("/batchDel")
-    public Response batchDel(List<String> ids) {
-        routerService.deleteByIds(ids);
+    public Response batchDel(@RequestBody List<String> ids) {
+        sensitiveService.deleteByIds(ids);
         return Response.success();
     }
 
-    @ApiOperation("根据id获取路由信息")
-    @GetMapping("/getById/{routerId}")
-    public Response getById(@PathVariable("") String routerId) {
-        PeachRouterDO peachRouterDO = routerService.selectById(routerId);
+    @ApiOperation("根据id获取敏感词配置信息")
+    @GetMapping("/getById/{id}")
+    public Response getById(@PathVariable("id") String id) {
+        PeachSensitiveDO peachRouterDO = sensitiveService.selectById(id);
         return Response.success().setData(peachRouterDO);
     }
 
-    @ApiOperation("修改路由")
+    @ApiOperation("修改敏感词配置")
     @PostMapping("/update")
-    public Response update(@RequestBody PeachRouterDO peachRouterDO) {
-        routerService.update(peachRouterDO);
+    public Response update(@RequestBody PeachSensitiveDO peachSensitiveDO) {
+        sensitiveService.update(peachSensitiveDO);
         return Response.success();
     }
 

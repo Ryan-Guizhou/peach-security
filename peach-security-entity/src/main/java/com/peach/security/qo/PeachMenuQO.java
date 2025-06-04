@@ -1,6 +1,7 @@
 package com.peach.security.qo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,7 +13,10 @@ import java.util.List;
  * @CreateTime 2025/5/1 20:20
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class PeachMenuQO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String menuId;
 

@@ -38,14 +38,14 @@ public class RouterController {
 
     @ApiOperation("新增路由")
     @PostMapping("/insert")
-    public Response insert(List<String> ids) {
-        routerService.deleteByIds(ids);
+    public Response insert(@RequestBody PeachRouterDO peachRouterDO) {
+        routerService.insert(peachRouterDO);
         return Response.success();
     }
 
     @ApiOperation("删除路由信息")
     @PostMapping("/batchDel")
-    public Response batchDel(List<String> ids) {
+    public Response batchDel(@RequestBody List<String> ids) {
         routerService.deleteByIds(ids);
         return Response.success();
     }
