@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peach.security.dao.PeachOptionDao">
+    <sql id="allColumn">
+        ID,                                               OPT_CODE,                                         OPT_VALUE,                                        OPT_DESC,
+        PARENT_CODE,                                      STATUS,                                           SORT_ORDER,                                       CREATOR,
+        CREATOR_NAME,                                     MODIFIER,                                         MODIFIER_NAME,                                    CREATOR_TIME,
+        MODIFY_TIME
+    </sql>
+
+    <sql id="allColumnAlias">
+        ID as id,                                         OPT_CODE as optCode,                              OPT_VALUE as optValue,                            OPT_DESC as optDesc,
+        PARENT_CODE as parentCode,                        STATUS as status,                                 SORT_ORDER as sortOrder,                          CREATOR as creator,
+        CREATOR_NAME as creatorName,                      MODIFIER as modifier,                             MODIFIER_NAME as modifierName,                    CREATOR_TIME as createTime,
+        MODIFY_TIME as modifyTime
+    </sql>
+
+    <sql id="allColumnValue">
+        #{id,jdbcType=VARCHAR},                 #{optCode,jdbcType=VARCHAR},            #{optValue,jdbcType=VARCHAR},           #{optDesc,jdbcType=VARCHAR},
+        #{parentCode,jdbcType=VARCHAR},         #{status,jdbcType=INTEGER},             #{sortOrder,jdbcType=INTEGER},          #{creator,jdbcType=VARCHAR},
+        #{creatorName,jdbcType=VARCHAR},        #{modifier,jdbcType=VARCHAR},           #{modifierName,jdbcType=VARCHAR},       #{createTime,jdbcType=VARCHAR},
+        #{modifyTime,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="itemAllColumnValue">
+        #{item.id,jdbcType=VARCHAR},            #{item.optCode,jdbcType=VARCHAR},       #{item.optValue,jdbcType=VARCHAR},      #{item.optDesc,jdbcType=VARCHAR},
+        #{item.parentCode,jdbcType=VARCHAR},    #{item.status,jdbcType=INTEGER},        #{item.sortOrder,jdbcType=INTEGER},     #{item.creator,jdbcType=VARCHAR},
+        #{item.creatorName,jdbcType=VARCHAR},   #{item.modifier,jdbcType=VARCHAR},      #{item.modifierName,jdbcType=VARCHAR},  #{item.createTime,jdbcType=VARCHAR},
+        #{item.modifyTime,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="allColumnSet">
+        <trim suffixOverrides=",">
+            <if test="optCode != null and optCode != ''">
+                OPT_CODE = #{optCode,jdbcType=VARCHAR},
+            </if>
+            <if test="optValue != null and optValue != ''">
+                OPT_VALUE = #{optValue,jdbcType=VARCHAR},
+            </if>
+            <if test="optDesc != null and optDesc != ''">
+                OPT_DESC = #{optDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode != null and parentCode != ''">
+                PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="sortOrder != null">
+                SORT_ORDER = #{sortOrder,jdbcType=INTEGER},
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                CREATOR_NAME = #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null and modifier != ''">
+                MODIFIER = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                MODIFIER_NAME = #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATOR_TIME = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                MODIFY_TIME = #{modifyTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveColumn">
+        <trim suffixOverrides=",">
+            <if test="optCode != null and optCode != ''">
+                OPT_CODE,
+            </if>
+            <if test="optValue != null and optValue != ''">
+                OPT_VALUE,
+            </if>
+            <if test="optDesc != null and optDesc != ''">
+                OPT_DESC,
+            </if>
+            <if test="parentCode != null and parentCode != ''">
+                PARENT_CODE,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="sortOrder != null">
+                SORT_ORDER,
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR,
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                CREATOR_NAME,
+            </if>
+            <if test="modifier != null and modifier != ''">
+                MODIFIER,
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                MODIFIER_NAME,
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATOR_TIME,
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                MODIFY_TIME,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveValue">
+        <trim suffixOverrides=",">
+            <if test="optCode != null and optCode != ''">
+                #{optCode,jdbcType=VARCHAR},
+            </if>
+            <if test="optValue != null and optValue != ''">
+                #{optValue,jdbcType=VARCHAR},
+            </if>
+            <if test="optDesc != null and optDesc != ''">
+                #{optDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCode != null and parentCode != ''">
+                #{parentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="sortOrder != null">
+                #{sortOrder,jdbcType=INTEGER},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null and modifier != ''">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                #{modifyTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="allColumnCond">
+        <if test="id != null and id != ''">
+            AND ID = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="optCode != null and optCode != ''">
+            AND OPT_CODE = #{optCode,jdbcType=VARCHAR}
+        </if>
+        <if test="optValue != null and optValue != ''">
+            AND OPT_VALUE = #{optValue,jdbcType=VARCHAR}
+        </if>
+        <if test="optDesc != null and optDesc != ''">
+            AND OPT_DESC = #{optDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="parentCode != null and parentCode != ''">
+            AND PARENT_CODE = #{parentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null">
+            AND STATUS = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="sortOrder != null">
+            AND SORT_ORDER = #{sortOrder,jdbcType=INTEGER}
+        </if>
+        <if test="creator != null and creator != ''">
+            AND CREATOR = #{creator,jdbcType=VARCHAR}
+        </if>
+        <if test="creatorName != null and creatorName != ''">
+            AND CREATOR_NAME = #{creatorName,jdbcType=VARCHAR}
+        </if>
+        <if test="modifier != null and modifier != ''">
+            AND MODIFIER = #{modifier,jdbcType=VARCHAR}
+        </if>
+        <if test="modifierName != null and modifierName != ''">
+            AND MODIFIER_NAME = #{modifierName,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            AND CREATOR_TIME = #{createTime,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyTime != null and modifyTime != ''">
+            AND MODIFY_TIME = #{modifyTime,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="com.peach.security.entity.PeachOptionDO">
+        INSERT INTO PEACH_OPTION (
+        <include refid="allColumn" />
+        ) VALUES (
+        <include refid="allColumnValue" />
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="com.peach.security.entity.PeachOptionDO">
+        INSERT INTO PEACH_OPTION (
+        <include refid="allColumn" />
+        ) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (<include refid="itemAllColumnValue"/>)
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.peach.security.entity.PeachOptionDO">
+        UPDATE PEACH_OPTION SET
+        <include refid="allColumnSet" />
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </update>
+
+    <delete id="delById" parameterType="string">
+        DELETE FROM PEACH_OPTION
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="delByIds" parameterType="java.util.List">
+        DELETE FROM PEACH_OPTION
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="del" parameterType="com.peach.security.entity.PeachOptionDO">
+        DELETE FROM PEACH_OPTION
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </delete>
+
+    <update id="updateById" parameterType="java.lang.String">
+        UPDATE PEACH_OPTION SET
+        <include refid="allColumnSet" />
+        WHERE ID =  #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="string" resultType="com.peach.security.entity.PeachOptionDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_OPTION
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultType="com.peach.security.entity.PeachOptionDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_OPTION
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="select" parameterType="com.peach.security.entity.PeachOptionDO" resultType="com.peach.security.entity.PeachOptionDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_OPTION
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="count" parameterType="com.peach.security.entity.PeachOptionDO" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM PEACH_OPTION
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="selectByQO" resultType="com.peach.security.entity.PeachOptionDO">
+        SELECT <include refid="allColumnAlias"/>
+        FROM PEACH_OPTION
+        <where>
+            <if test="idList != null and idList.size() > 0">
+                AND id IN
+                <foreach collection="idList" index="index" item="id" open="(" separator="," close=")">
+                    #{id,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

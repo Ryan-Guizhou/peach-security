@@ -36,13 +36,6 @@ public class RouterController {
     }
 
 
-    @ApiOperation("根据id列表删除路由")
-    @PostMapping("/delByIds")
-    public Response delByIds(List<String> ids) {
-        routerService.deleteByIds(ids);
-        return Response.success();
-    }
-
     @ApiOperation("新增路由")
     @PostMapping("/insert")
     public Response insert(List<String> ids) {

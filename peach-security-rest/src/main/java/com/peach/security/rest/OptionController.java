@@ -2,9 +2,9 @@ package com.peach.security.rest;
 
 import com.peach.common.response.PageResult;
 import com.peach.common.response.Response;
-import com.peach.security.api.IRouterService;
-import com.peach.security.entity.PeachRouterDO;
-import com.peach.security.qo.PeachRouterQO;
+import com.peach.security.api.IOptionService;
+import com.peach.security.entity.PeachOptionDO;
+import com.peach.security.qo.PeachOptionQO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Indexed;
@@ -26,48 +26,40 @@ import java.util.List;
 public class OptionController {
 
     @Resource
-    private IRouterService routerService;
+    private IOptionService optionService;
 
-    @ApiOperation("分页查询路由")
+    @ApiOperation("分页查询值集")
     @PostMapping("/selectByPage")
-    public Response selectByPage(PeachRouterQO peachRouterQO) {
-        PageResult<PeachRouterDO> pageResult = routerService.selectByPage(peachRouterQO);
+    public Response selectByPage(PeachOptionQO peachOptionQO) {
+        PageResult<PeachOptionDO> pageResult = optionService.selectByPage(peachOptionQO);
         return Response.success().setData(pageResult);
     }
 
-
-    @ApiOperation("根据id列表删除路由")
-    @PostMapping("/delByIds")
-    public Response delByIds(List<String> ids) {
-        routerService.deleteByIds(ids);
-        return Response.success();
-    }
-
-    @ApiOperation("新增路由")
+    @ApiOperation("新增值集")
     @PostMapping("/insert")
-    public Response insert(List<String> ids) {
-        routerService.deleteByIds(ids);
+    public Response insert(PeachOptionDO peachOptionDO) {
+        optionService.insert(peachOptionDO);
         return Response.success();
     }
 
-    @ApiOperation("删除路由信息")
+    @ApiOperation("删除值集")
     @PostMapping("/batchDel")
     public Response batchDel(List<String> ids) {
-        routerService.deleteByIds(ids);
+        optionService.deleteByIds(ids);
         return Response.success();
     }
 
-    @ApiOperation("根据id获取路由信息")
-    @GetMapping("/getById/{routerId}")
-    public Response getById(@PathVariable("") String routerId) {
-        PeachRouterDO peachRouterDO = routerService.selectById(routerId);
-        return Response.success().setData(peachRouterDO);
+    @ApiOperation("根据id获取值集")
+    @GetMapping("/getById/{id}")
+    public Response getById(@PathVariable("id") String id) {
+        PeachOptionDO peachOptionDO = optionService.selectById(id);
+        return Response.success().setData(peachOptionDO);
     }
 
-    @ApiOperation("修改路由")
+    @ApiOperation("修改值集")
     @PostMapping("/update")
-    public Response update(@RequestBody PeachRouterDO peachRouterDO) {
-        routerService.update(peachRouterDO);
+    public Response update(@RequestBody PeachOptionDO peachOptionDO) {
+        optionService.update(peachOptionDO);
         return Response.success();
     }
 

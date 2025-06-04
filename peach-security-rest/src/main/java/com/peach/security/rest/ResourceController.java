@@ -37,8 +37,7 @@ public class ResourceController {
     @PostMapping("/delResource")
     @ApiOperation("删除资源")
     public Response delResource(@RequestBody List<String> resourceIdList) {
-        return resourceService.delResource(resourceIdList);
-
+        return resourceService.del(resourceIdList);
     }
 
     @PostMapping("/modify")
