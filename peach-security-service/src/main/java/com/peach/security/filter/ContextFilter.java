@@ -1,17 +1,11 @@
 package com.peach.security.filter;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.peach.common.request.AbstractWrapperFilter;
-import com.peach.common.util.CaffeineUtil;
-import com.peach.common.util.InstanceLazyLoader;
 import com.peach.common.util.StringUtil;
 import com.peach.security.CurrentContext;
 import com.peach.security.CurrentContextEntity;
-import com.peach.security.CurrentUserDO;
-import com.peach.security.api.IUserService;
 import com.peach.security.constant.LanguageConstant;
-import com.peach.security.entity.PeachUserDO;
 import com.peach.security.util.FilterUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -48,30 +42,30 @@ public class ContextFilter extends AbstractWrapperFilter implements Ordered {
 
         // 4. 填充当前用户信息（如果不是排除路径）
         if (!FilterUtil.getExcludePathList().contains(requestURI)) {
-            try {
-                Object loginId = StringUtil.isNotBlank(ticket) ? StpUtil.getLoginId(ticket) : StpUtil.getLoginId();
-                if (ObjectUtil.isNotNull(loginId)) {
-                    String userId = StringUtil.getStringValue(loginId).split(":")[2];
-                    CurrentUserDO currentUser = CaffeineUtil.get(userId, () -> {
-                        // 实际实现中应填充从数据库查用户信息逻辑
-                        IUserService instance = InstanceLazyLoader.getInstance(IUserService.class);
-                        PeachUserDO userInfo = instance.getUserInfo(userId);
-                        CurrentUserDO currentUserDO = new CurrentUserDO();
-                        currentUserDO.setUserId(userId);
-                        currentUserDO.setAccount(userInfo.getUserAccount());
-                        currentUserDO.setUserName(userInfo.getUserName());
-                        currentUserDO.setLanguage(language);
-                        return currentUserDO;
-                    });
-                    currentUser.setLanguage(language);
-                    context.setCurrentUserDO(currentUser);
-                } else {
-                    throw new RuntimeException("User not logged in, loginId: " + loginId);
-                }
-            } catch (Exception e) {
-                log.error("Failed to get user information. requestURI: [{}], ticket: [{}]", requestURI, ticket, e);
-                throw new RuntimeException("Failed to get user information", e);
-            }
+//            try {
+//                Object loginId = StringUtil.isNotBlank(ticket) ? StpUtil.getLoginId(ticket) : StpUtil.getLoginId();
+//                if (ObjectUtil.isNotNull(loginId)) {
+//                    String userId = StringUtil.getStringValue(loginId).split(":")[2];
+//                    CurrentUserDO currentUser = CaffeineUtil.get(userId, () -> {
+//                        // 实际实现中应填充从数据库查用户信息逻辑
+//                        IUserService instance = InstanceLazyLoader.getInstance(IUserService.class);
+//                        PeachUserDO userInfo = instance.getUserInfo(userId);
+//                        CurrentUserDO currentUserDO = new CurrentUserDO();
+//                        currentUserDO.setUserId(userId);
+//                        currentUserDO.setAccount(userInfo.getUserAccount());
+//                        currentUserDO.setUserName(userInfo.getUserName());
+//                        currentUserDO.setLanguage(language);
+//                        return currentUserDO;
+//                    });
+//                    currentUser.setLanguage(language);
+//                    context.setCurrentUserDO(currentUser);
+//                } else {
+//                    throw new RuntimeException("User not logged in, loginId: " + loginId);
+//                }
+//            } catch (Exception e) {
+//                log.error("Failed to get user information. requestURI: [{}], ticket: [{}]", requestURI, ticket, e);
+//                throw new RuntimeException("Failed to get user information", e);
+//            }
         }
 
         // 5. 写入上下文

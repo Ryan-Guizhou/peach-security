@@ -37,8 +37,8 @@ public class SensitiveController {
 
     @ApiOperation("新增敏感词配置")
     @PostMapping("/insert")
-    public Response insert(@RequestBody List<String> ids) {
-        sensitiveService.deleteByIds(ids);
+    public Response insert(@RequestBody PeachSensitiveDO peachSensitiveDO) {
+        sensitiveService.insert(peachSensitiveDO);
         return Response.success();
     }
 

@@ -4,7 +4,6 @@ import cn.dev33.satoken.config.SaTokenConfig;
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.exception.SaTokenException;
 import cn.dev33.satoken.filter.SaServletFilter;
-import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
 import com.peach.common.enums.StatusEnum;
@@ -88,7 +87,7 @@ public class AuthConfig {
                 .addInclude("/**").addExclude(FilterUtil.getExcludePathList().toArray(new String[0]))
                 // 认证函数: 每次请求执行
                 .setAuth(obj -> {
-                    SaRouter.match("/**").check(StpUtil::checkLogin);
+//                    SaRouter.match("/**").check(StpUtil::checkLogin);
                 })
                 .setError(e -> {
                     // 设置响应头
@@ -118,7 +117,7 @@ public class AuthConfig {
                     // 使用封装的 JSON 工具类转换数据格式
                     return JSONUtil.toJsonStr(Response.commonResponse(StatusEnum.PARAM_ERROR, "token is null！"));
                 }));
-        registration.addUrlPatterns("*");
+        registration.addUrlPatterns("/*");
         registration.setOrder(2);
         registration.setDispatcherTypes(DispatcherType.REQUEST);
         return registration;

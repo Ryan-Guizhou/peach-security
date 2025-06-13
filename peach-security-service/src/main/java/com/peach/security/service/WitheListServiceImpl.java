@@ -2,6 +2,8 @@ package com.peach.security.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.peach.common.IRedisDao;
+import com.peach.common.constant.RedisConstant;
 import com.peach.common.response.PageResult;
 import com.peach.common.util.IDGeneratorUtil;
 import com.peach.common.util.InputParamChecker;
@@ -29,6 +31,9 @@ import java.util.List;
 @Indexed
 @Service
 public class WitheListServiceImpl implements IWitheListService {
+
+    @Resource
+    private IRedisDao redisDao;
 
     @Resource
     private PeachWitheListDao peachWitheListDao;
@@ -63,6 +68,7 @@ public class WitheListServiceImpl implements IWitheListService {
         }
         peachWitheListDO.setId(IDGeneratorUtil.UUID());
         peachWitheListDao.insert(peachWitheListDO);
+        redisDao.delete(RedisConstant.PRE_SENSITIVE_REDIS_KEY);
     }
 
     @Override
@@ -79,6 +85,7 @@ public class WitheListServiceImpl implements IWitheListService {
             throw new RuntimeException("id: [{}] is not exist");
         }
         peachWitheListDao.update(peachWitheListDO);
+        redisDao.delete(RedisConstant.PRE_SENSITIVE_REDIS_KEY);
     }
 
     @Override
@@ -87,6 +94,7 @@ public class WitheListServiceImpl implements IWitheListService {
             return;
         }
         peachWitheListDao.delByIds(idList);
+        redisDao.delete(RedisConstant.PRE_SENSITIVE_REDIS_KEY);
     }
 
     @Override

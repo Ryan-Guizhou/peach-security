@@ -1,5 +1,6 @@
 package com.peach.security.qo;
 
+import com.peach.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,8 +14,8 @@ import java.util.List;
  * @CreateTime 2025/6/4 23:55
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class PeachSensitiveQO implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class PeachSensitiveQO extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

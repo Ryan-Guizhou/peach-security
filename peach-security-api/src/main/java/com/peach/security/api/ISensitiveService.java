@@ -49,4 +49,9 @@ public interface ISensitiveService {
      * @return
      */
     PeachSensitiveDO selectById(String id);
+
+    /**
+     * 不分页查询所有的敏感词信息
+     */
+    List<PeachSensitiveDO> selectAll();
 }

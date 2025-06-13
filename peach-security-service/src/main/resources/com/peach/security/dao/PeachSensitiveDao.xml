@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peach.security.dao.PeachSensitiveDao">
+    <sql id="allColumn">
+        ID,                                               WORD,                                             TYPE,                                             MATCH_TYPE,
+        STATUS,                                           DESCRIPTION,                                      CREATOR,                                          CREATORNAME,
+        MODIFIER,                                         MODIFIERNAME,                                     CREATETIME,                                       MODIFYTIME
+
+    </sql>
+
+    <sql id="allColumnAlias">
+        ID as id,                                         WORD as word,                                     TYPE as type,                                     MATCH_TYPE as matchType,
+        STATUS as status,                                 DESCRIPTION as description,                       CREATOR as creator,                               CREATORNAME as creatorname,
+        MODIFIER as modifier,                             MODIFIERNAME as modifiername,                     CREATETIME as createtime,                         MODIFYTIME as modifytime
+
+    </sql>
+
+    <sql id="allColumnValue">
+        #{id,jdbcType=VARCHAR},                 #{word,jdbcType=VARCHAR},               #{type,jdbcType=VARCHAR},               #{matchType,jdbcType=INTEGER},
+        #{status,jdbcType=INTEGER},             #{description,jdbcType=VARCHAR},        #{creator,jdbcType=VARCHAR},            #{creatorname,jdbcType=VARCHAR},
+        #{modifier,jdbcType=VARCHAR},           #{modifiername,jdbcType=VARCHAR},       #{createtime,jdbcType=VARCHAR},         #{modifytime,jdbcType=VARCHAR}
+
+    </sql>
+
+    <sql id="itemAllColumnValue">
+        #{item.id,jdbcType=VARCHAR},            #{item.word,jdbcType=VARCHAR},          #{item.type,jdbcType=VARCHAR},          #{item.matchType,jdbcType=INTEGER},
+        #{item.status,jdbcType=INTEGER},        #{item.description,jdbcType=VARCHAR},   #{item.creator,jdbcType=VARCHAR},       #{item.creatorname,jdbcType=VARCHAR},
+        #{item.modifier,jdbcType=VARCHAR},      #{item.modifiername,jdbcType=VARCHAR},  #{item.createtime,jdbcType=VARCHAR},    #{item.modifytime,jdbcType=VARCHAR}
+
+    </sql>
+
+    <sql id="allColumnSet">
+        <trim suffixOverrides=",">
+            <if test="word != null and word != ''">
+                WORD = #{word,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="matchType != null">
+                MATCH_TYPE = #{matchType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorname != null and creatorname != ''">
+                CREATORNAME = #{creatorname,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null and modifier != ''">
+                MODIFIER = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifiername != null and modifiername != ''">
+                MODIFIERNAME = #{modifiername,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null and createtime != ''">
+                CREATETIME = #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifytime != null and modifytime != ''">
+                MODIFYTIME = #{modifytime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveColumn">
+        <trim suffixOverrides=",">
+            <if test="word != null and word != ''">
+                WORD,
+            </if>
+            <if test="type != null and type != ''">
+                TYPE,
+            </if>
+            <if test="matchType != null">
+                MATCH_TYPE,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION,
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR,
+            </if>
+            <if test="creatorname != null and creatorname != ''">
+                CREATORNAME,
+            </if>
+            <if test="modifier != null and modifier != ''">
+                MODIFIER,
+            </if>
+            <if test="modifiername != null and modifiername != ''">
+                MODIFIERNAME,
+            </if>
+            <if test="createtime != null and createtime != ''">
+                CREATETIME,
+            </if>
+            <if test="modifytime != null and modifytime != ''">
+                MODIFYTIME,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveValue">
+        <trim suffixOverrides=",">
+            <if test="word != null and word != ''">
+                #{word,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="matchType != null">
+                #{matchType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="description != null and description != ''">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorname != null and creatorname != ''">
+                #{creatorname,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null and modifier != ''">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifiername != null and modifiername != ''">
+                #{modifiername,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null and createtime != ''">
+                #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifytime != null and modifytime != ''">
+                #{modifytime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="allColumnCond">
+        <if test="id != null and id != ''">
+            AND ID = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="word != null and word != ''">
+            AND WORD = #{word,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null and type != ''">
+            AND TYPE = #{type,jdbcType=VARCHAR}
+        </if>
+        <if test="matchType != null">
+            AND MATCH_TYPE = #{matchType,jdbcType=INTEGER}
+        </if>
+        <if test="status != null">
+            AND STATUS = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="description != null and description != ''">
+            AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+        </if>
+        <if test="creator != null and creator != ''">
+            AND CREATOR = #{creator,jdbcType=VARCHAR}
+        </if>
+        <if test="creatorname != null and creatorname != ''">
+            AND CREATORNAME = #{creatorname,jdbcType=VARCHAR}
+        </if>
+        <if test="modifier != null and modifier != ''">
+            AND MODIFIER = #{modifier,jdbcType=VARCHAR}
+        </if>
+        <if test="modifiername != null and modifiername != ''">
+            AND MODIFIERNAME = #{modifiername,jdbcType=VARCHAR}
+        </if>
+        <if test="createtime != null and createtime != ''">
+            AND CREATETIME = #{createtime,jdbcType=VARCHAR}
+        </if>
+        <if test="modifytime != null and modifytime != ''">
+            AND MODIFYTIME = #{modifytime,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="com.peach.security.entity.PeachSensitiveDO">
+        INSERT INTO PEACH_SENSITIVE (
+        <include refid="allColumn" />
+        ) VALUES (
+        <include refid="allColumnValue" />
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="com.peach.security.entity.PeachSensitiveDO">
+        INSERT INTO PEACH_SENSITIVE (
+        <include refid="allColumn" />
+        ) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (<include refid="itemAllColumnValue"/>)
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.peach.security.entity.PeachSensitiveDO">
+        UPDATE PEACH_SENSITIVE SET
+        <include refid="allColumnSet" />
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </update>
+
+    <delete id="delById" parameterType="string">
+        DELETE FROM PEACH_SENSITIVE
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="delByIds" parameterType="java.util.List">
+        DELETE FROM PEACH_SENSITIVE
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="del" parameterType="com.peach.security.entity.PeachSensitiveDO">
+        DELETE FROM PEACH_SENSITIVE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </delete>
+
+    <update id="updateById" parameterType="java.lang.String">
+        UPDATE PEACH_SENSITIVE SET
+        <include refid="allColumnSet" />
+        WHERE ID =  #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="string" resultType="com.peach.security.entity.PeachSensitiveDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_SENSITIVE
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultType="com.peach.security.entity.PeachSensitiveDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_SENSITIVE
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="select" parameterType="com.peach.security.entity.PeachSensitiveDO" resultType="com.peach.security.entity.PeachSensitiveDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_SENSITIVE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="count" parameterType="com.peach.security.entity.PeachSensitiveDO" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM PEACH_SENSITIVE
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="selectByQO" resultType="com.peach.security.entity.PeachSensitiveDO" parameterType="com.peach.security.qo.PeachSensitiveQO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_SENSITIVE
+        <where>
+            <if test="idList != null and idList.size() > 0">
+                AND ID IN
+                <foreach collection="idList" index="index" item="id" open="(" separator="," close=")">
+                    #{id,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>
