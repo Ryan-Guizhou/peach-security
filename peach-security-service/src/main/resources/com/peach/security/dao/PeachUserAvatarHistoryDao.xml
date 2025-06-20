@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peach.security.dao.PeachUserAvatarHistoryDao">
+    <sql id="allColumn">
+        ID,                                               USER_ID,                                          AVATAR_URL,                                       CHANGE_REASON,
+        IS_CURRENT,                                       CREATOR,                                          CREATOR_NAME,                                     MODIFIER,
+        MODIFIER_NAME,                                    CREATOR_TIME,                                     MODIFY_TIME
+    </sql>
+
+    <sql id="allColumnAlias">
+        ID as id,                                         USER_ID as userId,                                AVATAR_URL as avatarUrl,                          CHANGE_REASON as changeReason,
+        IS_CURRENT as isCurrent,                          CREATOR as creator,                               CREATOR_NAME as creatorName,                      MODIFIER as modifier,
+        MODIFIER_NAME as modifierName,                    CREATOR_TIME as createTime,                       MODIFY_TIME as modifyTime
+    </sql>
+
+    <sql id="allColumnValue">
+        #{id,jdbcType=VARCHAR},                 #{userId,jdbcType=VARCHAR},             #{avatarUrl,jdbcType=VARCHAR},          #{changeReason,jdbcType=VARCHAR},
+        #{isCurrent,jdbcType=INTEGER},          #{creator,jdbcType=VARCHAR},            #{creatorName,jdbcType=VARCHAR},        #{modifier,jdbcType=VARCHAR},
+        #{modifierName,jdbcType=VARCHAR},       #{createTime,jdbcType=VARCHAR},         #{modifyTime,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="itemAllColumnValue">
+        #{item.id,jdbcType=VARCHAR},            #{item.userId,jdbcType=VARCHAR},        #{item.avatarUrl,jdbcType=VARCHAR},     #{item.changeReason,jdbcType=VARCHAR},
+        #{item.isCurrent,jdbcType=INTEGER},     #{item.creator,jdbcType=VARCHAR},       #{item.creatorName,jdbcType=VARCHAR},   #{item.modifier,jdbcType=VARCHAR},
+        #{item.modifierName,jdbcType=VARCHAR},  #{item.createTime,jdbcType=VARCHAR},    #{item.modifyTime,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="allColumnSet">
+        <trim suffixOverrides=",">
+            <if test="userId != null and userId != ''">
+                USER_ID = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                AVATAR_URL = #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="changeReason != null and changeReason != ''">
+                CHANGE_REASON = #{changeReason,jdbcType=VARCHAR},
+            </if>
+            <if test="isCurrent != null">
+                IS_CURRENT = #{isCurrent,jdbcType=INTEGER},
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                CREATOR_NAME = #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null and modifier != ''">
+                MODIFIER = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                MODIFIER_NAME = #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATOR_TIME = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                MODIFY_TIME = #{modifyTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveColumn">
+        <trim suffixOverrides=",">
+            <if test="userId != null and userId != ''">
+                USER_ID,
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                AVATAR_URL,
+            </if>
+            <if test="changeReason != null and changeReason != ''">
+                CHANGE_REASON,
+            </if>
+            <if test="isCurrent != null">
+                IS_CURRENT,
+            </if>
+            <if test="creator != null and creator != ''">
+                CREATOR,
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                CREATOR_NAME,
+            </if>
+            <if test="modifier != null and modifier != ''">
+                MODIFIER,
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                MODIFIER_NAME,
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATOR_TIME,
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                MODIFY_TIME,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateSelectiveValue">
+        <trim suffixOverrides=",">
+            <if test="userId != null and userId != ''">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="changeReason != null and changeReason != ''">
+                #{changeReason,jdbcType=VARCHAR},
+            </if>
+            <if test="isCurrent != null">
+                #{isCurrent,jdbcType=INTEGER},
+            </if>
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                #{creatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null and modifier != ''">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null and modifierName != ''">
+                #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null and modifyTime != ''">
+                #{modifyTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="allColumnCond">
+        <if test="id != null and id != ''">
+            AND ID = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null and userId != ''">
+            AND USER_ID = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="avatarUrl != null and avatarUrl != ''">
+            AND AVATAR_URL = #{avatarUrl,jdbcType=VARCHAR}
+        </if>
+        <if test="changeReason != null and changeReason != ''">
+            AND CHANGE_REASON = #{changeReason,jdbcType=VARCHAR}
+        </if>
+        <if test="isCurrent != null">
+            AND IS_CURRENT = #{isCurrent,jdbcType=INTEGER}
+        </if>
+        <if test="creator != null and creator != ''">
+            AND CREATOR = #{creator,jdbcType=VARCHAR}
+        </if>
+        <if test="creatorName != null and creatorName != ''">
+            AND CREATOR_NAME = #{creatorName,jdbcType=VARCHAR}
+        </if>
+        <if test="modifier != null and modifier != ''">
+            AND MODIFIER = #{modifier,jdbcType=VARCHAR}
+        </if>
+        <if test="modifierName != null and modifierName != ''">
+            AND MODIFIER_NAME = #{modifierName,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            AND CREATOR_TIME = #{createTime,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyTime != null and modifyTime != ''">
+            AND MODIFY_TIME = #{modifyTime,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="com.peach.security.entity.PeachUserAvatarHistoryDO">
+        INSERT INTO PEACH_USER_AVATAR_HISTORY (
+        <include refid="allColumn" />
+        ) VALUES (
+        <include refid="allColumnValue" />
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="com.peach.security.entity.PeachUserAvatarHistoryDO">
+        INSERT INTO PEACH_USER_AVATAR_HISTORY (
+        <include refid="allColumn" />
+        ) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (<include refid="itemAllColumnValue"/>)
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.peach.security.entity.PeachUserAvatarHistoryDO">
+        UPDATE PEACH_USER_AVATAR_HISTORY SET
+        <include refid="allColumnSet" />
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </update>
+
+    <delete id="delById" parameterType="string">
+        DELETE FROM PEACH_USER_AVATAR_HISTORY
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="delByIds" parameterType="java.util.List">
+        DELETE FROM PEACH_USER_AVATAR_HISTORY
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="del" parameterType="com.peach.security.entity.PeachUserAvatarHistoryDO">
+        DELETE FROM PEACH_USER_AVATAR_HISTORY
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </delete>
+
+    <delete id="deleteByQO" parameterType="com.peach.security.qo.PeachUserAvatarHistoryQO">
+        DELETE FROM PEACH_USER_AVATAR_HISHTORY
+        WHERE ID NOT IN (
+            SELECT ID FROM (
+                    SELECT ID
+                    FROM PEACH_USER_AVATAR_HISHTORY
+                    WHERE USER_ID = #{userId}
+                    ORDER BY CREATOR_TIME DESC
+                    LIMIT 10
+            ) AS t
+        )
+        AND USER_ID = #{userId};
+    </delete>
+
+    <update id="updateById" parameterType="java.lang.String">
+        UPDATE PEACH_USER_AVATAR_HISTORY SET
+        <include refid="allColumnSet" />
+        WHERE ID =  #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="string" resultType="com.peach.security.entity.PeachUserAvatarHistoryDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_USER_AVATAR_HISTORY
+        WHERE ID = #{value,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultType="com.peach.security.entity.PeachUserAvatarHistoryDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_USER_AVATAR_HISTORY
+        WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="select" parameterType="com.peach.security.entity.PeachUserAvatarHistoryDO" resultType="com.peach.security.entity.PeachUserAvatarHistoryDO">
+        SELECT
+        <include refid="allColumnAlias" />
+        FROM PEACH_USER_AVATAR_HISTORY
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="count" parameterType="com.peach.security.entity.PeachUserAvatarHistoryDO" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM PEACH_USER_AVATAR_HISTORY
+        <where>
+            <include refid="allColumnCond" />
+        </where>
+    </select>
+
+    <select id="selectByUserId" resultType="com.peach.security.vo.UserAvatarHistoryVO" parameterType="java.lang.String">
+        SELECT ID,USER_ID,AVATAR_URL FROM PEACH_USER_AVATAR_HISTORY
+        WHERE USER_ID = #{userId} and isCurrent = 1
+    </select>
+</mapper>

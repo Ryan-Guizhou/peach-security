@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.peach.common.IRedisDao;
 import com.peach.common.constant.RedisConstant;
 import com.peach.common.response.PageResult;
-import com.peach.common.util.IDGeneratorUtil;
+import com.peach.common.util.IDGenerator;
 import com.peach.common.util.InputParamChecker;
 import com.peach.common.util.PeachCollectionUtil;
 import com.peach.common.util.StringUtil;
@@ -66,7 +66,7 @@ public class WitheListServiceImpl implements IWitheListService {
             log.error(e.getMessage());
             throw new RuntimeException("params error");
         }
-        peachWitheListDO.setId(IDGeneratorUtil.UUID());
+        peachWitheListDO.setId(IDGenerator.UUID());
         peachWitheListDao.insert(peachWitheListDO);
         redisDao.delete(RedisConstant.PRE_SENSITIVE_REDIS_KEY);
     }

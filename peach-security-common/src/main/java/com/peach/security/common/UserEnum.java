@@ -56,4 +56,36 @@ public interface UserEnum {
 
 
     }
+
+    enum ChanegReason implements UserEnum{
+        /**
+         * 系统生成
+         */
+        SYSTEM_UPLOAD("SYSTEM_UPLOAD","系统生成"),
+
+        /**
+         * 用户上传
+         */
+        USER_UPLOAD("USER_UPLOAD","用户上传");
+
+        private final String value;
+
+        private final String desc;
+
+
+        ChanegReason(String value,String desc) {
+            this.value = value;
+            this.desc = desc;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+
+    }
 }

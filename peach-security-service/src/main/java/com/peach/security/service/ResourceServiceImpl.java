@@ -108,7 +108,7 @@ public class ResourceServiceImpl implements IResourceService {
         List<PeachAuthResourceDO> authResourceDOList = Lists.newArrayList();
         functionDOList.forEach(authFunction ->{
             PeachAuthResourceDO authResourceDO = new PeachAuthResourceDO();
-            authResourceDO.setResourceId(IDGenerator.id());
+            authResourceDO.setResourceId(IDGenerator.UUID());
             authResourceDO.setPartyCode(authFunction.getPartyCode());
             authResourceDO.setFuncCode(resourceDO.getFuncCode());
             authResourceDO.setResourceCode(resourceDO.getResourceCode());

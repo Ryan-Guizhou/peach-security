@@ -3,7 +3,7 @@ package com.peach.security.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.peach.common.response.PageResult;
-import com.peach.common.util.IDGeneratorUtil;
+import com.peach.common.util.IDGenerator;
 import com.peach.common.util.InputParamChecker;
 import com.peach.common.util.PeachCollectionUtil;
 import com.peach.common.util.StringUtil;
@@ -51,7 +51,7 @@ public class OptionServiceImpl implements IOptionService {
             log.error("params error"+e.getMessage(),e);
             throw new RuntimeException("params error");
         }
-        peachOptionD.setId(IDGeneratorUtil.UUID());
+        peachOptionD.setId(IDGenerator.UUID());
         peachOptionDao.insert(peachOptionD);
     }
 

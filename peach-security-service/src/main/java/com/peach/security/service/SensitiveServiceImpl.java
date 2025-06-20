@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.peach.common.IRedisDao;
 import com.peach.common.constant.RedisConstant;
 import com.peach.common.response.PageResult;
-import com.peach.common.util.IDGeneratorUtil;
+import com.peach.common.util.IDGenerator;
 import com.peach.common.util.InputParamChecker;
 import com.peach.common.util.PeachCollectionUtil;
 import com.peach.common.util.StringUtil;
@@ -56,7 +56,7 @@ public class SensitiveServiceImpl implements ISensitiveService {
             throw new RuntimeException("params error");
         }
         // 补充参数
-        peachSensitiveDO.setId(IDGeneratorUtil.UUID());
+        peachSensitiveDO.setId(IDGenerator.UUID());
         peachSensitiveDao.insert(peachSensitiveDO);
         redisDao.delete(RedisConstant.PRE_SENSITIVE_REDIS_KEY);
     }
