@@ -24,7 +24,6 @@ import com.peach.security.exception.AuthorityException;
 import com.peach.security.exception.ExpiredPasswordException;
 import com.peach.security.exception.RegisterException;
 import com.peach.security.vo.LoginConfigVO;
-import com.peach.security.vo.MenuVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Indexed;
 import org.springframework.stereotype.Service;
@@ -156,16 +155,16 @@ public class LoginServiceImpl implements ILoginService {
 
         // 3、登录成功,获取菜单、路由、角色等信息
         List<PeachRoleDO> roleList = roleService.selectByUserCode(loginRequestInfo.getUserAccount());
-        if (PeachCollectionUtil.isEmpty(roleList)) {
-            log.error("该用户:[{}]没有赋予角色信息",loginRequestInfo.getUserAccount());
-            return Response.fail().setMsg("该用户没有赋予角色");
-        }
-        List<String> roleCodeList = roleList.stream().map(PeachRoleDO::getRoleCode).collect(Collectors.toList());
-        List<MenuVO> menuList = menuService.selectByRoleCodeList(roleCodeList);
-        if (PeachCollectionUtil.isEmpty(menuList)) {
-            log.error("该用户:[{}]没有赋予菜单权限",loginRequestInfo.getUserAccount());
-            return Response.fail().setMsg("该用户没有赋予菜单权限");
-        }
+//        if (PeachCollectionUtil.isEmpty(roleList)) {
+//            log.error("该用户:[{}]没有赋予角色信息",loginRequestInfo.getUserAccount());
+//            return Response.fail().setMsg("该用户没有赋予角色");
+//        }
+//        List<String> roleCodeList = roleList.stream().map(PeachRoleDO::getRoleCode).collect(Collectors.toList());
+//        List<MenuVO> menuList = menuService.selectByRoleCodeList(roleCodeList);
+//        if (PeachCollectionUtil.isEmpty(menuList)) {
+//            log.error("该用户:[{}]没有赋予菜单权限",loginRequestInfo.getUserAccount());
+//            return Response.fail().setMsg("该用户没有赋予菜单权限");
+//        }
         List<PeachRouterDO> routerDOList = routerService.selectAll();
 
         StpUtil.login(peachUserDO.getId());
@@ -176,7 +175,7 @@ public class LoginServiceImpl implements ILoginService {
         loginInfo.setPhone(peachUserDO.getPhone());
         loginInfo.setStatus(peachUserDO.getStatus());
         loginInfo.setToken(StpUtil.getTokenValue());
-        loginInfo.setMenuList(menuList);
+//        loginInfo.setMenuList(menuList);
         loginInfo.setRoleList(roleList);
         loginInfo.setRouterDOList(routerDOList);
         return Response.success().setData(loginInfo);
